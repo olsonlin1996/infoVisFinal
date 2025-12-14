@@ -1,0 +1,746 @@
+[
+    {
+        "Round": 1,
+        "RaceName": "Bahrain Grand Prix",
+        "Country": "Bahrain",
+        "Date": "2024-03-02 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 18.2,
+            "TrackTemp": 23.7,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 2,
+        "RaceName": "Saudi Arabian Grand Prix",
+        "Country": "Saudi Arabia",
+        "Date": "2024-03-09 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 25.5,
+            "TrackTemp": 31.6,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 3,
+        "RaceName": "Australian Grand Prix",
+        "Country": "Australia",
+        "Date": "2024-03-24 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 20.6,
+            "TrackTemp": 38.4,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 4,
+        "RaceName": "Japanese Grand Prix",
+        "Country": "Japan",
+        "Date": "2024-04-07 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 21.7,
+            "TrackTemp": 37.5,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 5,
+        "RaceName": "Chinese Grand Prix",
+        "Country": "China",
+        "Date": "2024-04-21 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "PER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 18.6,
+            "TrackTemp": 29.8,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 6,
+        "RaceName": "Miami Grand Prix",
+        "Country": "United States",
+        "Date": "2024-05-05 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 28.5,
+            "TrackTemp": 44.7,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 7,
+        "RaceName": "Emilia Romagna Grand Prix",
+        "Country": "Italy",
+        "Date": "2024-05-19 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 25.1,
+            "TrackTemp": 42.0,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 8,
+        "RaceName": "Monaco Grand Prix",
+        "Country": "Monaco",
+        "Date": "2024-05-26 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 21.6,
+            "TrackTemp": 46.3,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 9,
+        "RaceName": "Canadian Grand Prix",
+        "Country": "Canada",
+        "Date": "2024-06-09 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "RUS",
+                "TeamName": "Mercedes",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 17.8,
+            "TrackTemp": 24.6,
+            "IsRainy": true
+        }
+    },
+    {
+        "Round": 10,
+        "RaceName": "Spanish Grand Prix",
+        "Country": "Spain",
+        "Date": "2024-06-23 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "HAM",
+                "TeamName": "Mercedes",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 24.1,
+            "TrackTemp": 41.1,
+            "IsRainy": true
+        }
+    },
+    {
+        "Round": 11,
+        "RaceName": "Austrian Grand Prix",
+        "Country": "Austria",
+        "Date": "2024-06-30 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "RUS",
+                "TeamName": "Mercedes",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 7.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 29.4,
+            "TrackTemp": 46.4,
+            "IsRainy": true
+        }
+    },
+    {
+        "Round": 12,
+        "RaceName": "British Grand Prix",
+        "Country": "United Kingdom",
+        "Date": "2024-07-07 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "HAM",
+                "TeamName": "Mercedes",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 15.8,
+            "TrackTemp": 27.7,
+            "IsRainy": true
+        }
+    },
+    {
+        "Round": 13,
+        "RaceName": "Hungarian Grand Prix",
+        "Country": "Hungary",
+        "Date": "2024-07-21 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "HAM",
+                "TeamName": "Mercedes",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 28.8,
+            "TrackTemp": 44.9,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 14,
+        "RaceName": "Belgian Grand Prix",
+        "Country": "Belgium",
+        "Date": "2024-07-28 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "HAM",
+                "TeamName": "Mercedes",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 21.3,
+            "TrackTemp": 42.3,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 15,
+        "RaceName": "Dutch Grand Prix",
+        "Country": "Netherlands",
+        "Date": "2024-08-25 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 6.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 19.0,
+            "TrackTemp": 30.8,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 16,
+        "RaceName": "Italian Grand Prix",
+        "Country": "Italy",
+        "Date": "2024-09-01 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 33.1,
+            "TrackTemp": 49.3,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 17,
+        "RaceName": "Azerbaijan Grand Prix",
+        "Country": "Azerbaijan",
+        "Date": "2024-09-15 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "RUS",
+                "TeamName": "Mercedes",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 26.7,
+            "TrackTemp": 44.3,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 18,
+        "RaceName": "Singapore Grand Prix",
+        "Country": "Singapore",
+        "Date": "2024-09-22 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 30.8,
+            "TrackTemp": 36.4,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 19,
+        "RaceName": "United States Grand Prix",
+        "Country": "United States",
+        "Date": "2024-10-20 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 28.1,
+            "TrackTemp": 46.6,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 20,
+        "RaceName": "Mexico City Grand Prix",
+        "Country": "Mexico",
+        "Date": "2024-10-27 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 19.9,
+            "TrackTemp": 35.6,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 21,
+        "RaceName": "São Paulo Grand Prix",
+        "Country": "Brazil",
+        "Date": "2024-11-03 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 17.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "OCO",
+                "TeamName": "Alpine",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "GAS",
+                "TeamName": "Alpine",
+                "GridPosition": 13.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 21.7,
+            "TrackTemp": 25.8,
+            "IsRainy": true
+        }
+    },
+    {
+        "Round": 22,
+        "RaceName": "Las Vegas Grand Prix",
+        "Country": "United States",
+        "Date": "2024-11-23 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "RUS",
+                "TeamName": "Mercedes",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "HAM",
+                "TeamName": "Mercedes",
+                "GridPosition": 10.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 17.8,
+            "TrackTemp": 17.7,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 23,
+        "RaceName": "Qatar Grand Prix",
+        "Country": "Qatar",
+        "Date": "2024-12-01 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "VER",
+                "TeamName": "Red Bull Racing",
+                "GridPosition": 2.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 5.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "PIA",
+                "TeamName": "McLaren",
+                "GridPosition": 4.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 18.9,
+            "TrackTemp": 22.8,
+            "IsRainy": false
+        }
+    },
+    {
+        "Round": 24,
+        "RaceName": "Abu Dhabi Grand Prix",
+        "Country": "United Arab Emirates",
+        "Date": "2024-12-08 00:00:00",
+        "Podium": [
+            {
+                "Abbreviation": "NOR",
+                "TeamName": "McLaren",
+                "GridPosition": 1.0,
+                "ClassifiedPosition": "1"
+            },
+            {
+                "Abbreviation": "SAI",
+                "TeamName": "Ferrari",
+                "GridPosition": 3.0,
+                "ClassifiedPosition": "2"
+            },
+            {
+                "Abbreviation": "LEC",
+                "TeamName": "Ferrari",
+                "GridPosition": 19.0,
+                "ClassifiedPosition": "3"
+            }
+        ],
+        "Weather": {
+            "AirTemp": 26.8,
+            "TrackTemp": 31.8,
+            "IsRainy": false
+        }
+    }
+]

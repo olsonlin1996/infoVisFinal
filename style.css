@@ -1,0 +1,388 @@
+body {
+    margin: 0;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+#stars,
+#stars2,
+#stars3 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    z-index: -1;
+    box-shadow: 0 0 #FFF;
+    border-radius: 50%;
+    overflow: visible;
+}
+
+#stars {
+    width: 1px;
+    height: 1px;
+    animation: animRotate 300s linear infinite;
+}
+
+#stars2 {
+    width: 2px;
+    height: 2px;
+    animation: animRotate 240s linear infinite;
+}
+
+#stars3 {
+    width: 3px;
+    height: 3px;
+    animation: animRotate 180s linear infinite;
+}
+
+@keyframes animRotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.sectionWorldMap {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+#map-container {
+    width: 75%;
+    height: 100%;
+    position: relative;
+    background: transparent;
+    overflow: hidden;
+    cursor: grab;
+}
+
+#map-container:active {
+    cursor: grabbing;
+}
+
+#minimap-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 240px;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.infoContainer {
+    width: 25%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(15px);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 20;
+}
+
+.infoContainer * {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+}
+
+h1 {
+    font-size: 22px;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    border-bottom: 2px solid #e10600;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.circuit-details {
+    width: 100%;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.circuit-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #e10600;
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.circuit-location {
+    font-size: 14px;
+    color: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.race-results {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.results-title {
+    font-size: 12px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 4px;
+    text-align: center;
+}
+
+.podium-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 13px;
+}
+
+.podium-pos {
+    font-weight: 800;
+    width: 20px;
+    text-align: center;
+}
+
+.pos-1 {
+    color: #FFD700;
+}
+
+.pos-2 {
+    color: #C0C0C0;
+}
+
+.pos-3 {
+    color: #CD7F32;
+}
+
+.podium-driver {
+    flex-grow: 1;
+    font-weight: 600;
+    color: #eee;
+    padding-left: 8px;
+}
+
+.podium-grid {
+    font-size: 10px;
+    color: #888;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.podium-team {
+    font-size: 11px;
+    color: #aaa;
+    text-align: right;
+}
+
+.weather-info {
+    font-size: 12px;
+    color: #4fa3c7;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    font-style: italic;
+    text-align: center;
+    font-weight: 500;
+}
+
+.team-list-wrapper {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+
+.team-list-title {
+    font-size: 12px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+#team-list-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+.team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.05) 100%);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.team-item:hover {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.15) 100%);
+    padding-left: 16px;
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+}
+
+.team-track {
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
+}
+
+.resetButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.6);
+    color: #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s;
+}
+
+.resetButton:hover {
+    background: #e10600;
+    color: white;
+    border-color: #e10600;
+}
+
+.trackContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #15151e;
+    z-index: 200;
+    flex-direction: column;
+}
+
+.enter-track-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #e10600, #ff4d4d);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.enter-track-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(225, 6, 0, 0.4);
+}
+
+.graph {
+    flex: 1;
+    display: flex;
+}
+
+.timeCurve {
+    flex: 1;
+    border-right: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+}
+
+.track {
+    flex: 2;
+    background: radial-gradient(circle at center, #1b1b26 0%, #000 100%);
+}
+
+.Totop {
+    height: 40px;
+    background-color: #e10600;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
