@@ -76,9 +76,45 @@
 
       <div class="analysisContent">
         <div class="analysisLeft">
-          <div class="timeCurve">
-            <h3>Telemetry Analysis</h3>
-            <p class="coming-soon">Coming Soon</p>
+          <div class="telemetryCard">
+            <div class="telemetry-header">
+              <div class="analysis-label">Telemetry Analysis</div>
+              <h3>車手進度動畫</h3>
+              <p class="telemetry-subtitle">同步顯示 20 位車手的圈速進度</p>
+            </div>
+            <div class="telemetry-embed">
+              <iframe
+                id="progress-frame"
+                title="Driver Progress"
+                allowfullscreen
+              ></iframe>
+              <div id="progress-placeholder" class="telemetry-placeholder">
+                <p>尚未選擇賽道，無法載入車手進度動畫。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="telemetryCard timecurve-card" id="timecurve-panel">
+            <div class="telemetry-header">
+              <div class="analysis-label">Telemetry Insights</div>
+              <h3>日本站操作風格</h3>
+              <p class="telemetry-subtitle">S 字彎操作相似度與駕駛風格對比</p>
+            </div>
+            <div class="timecurve-embeds">
+              <iframe
+                id="timecurve-main"
+                title="S-Curve Time Curve"
+                allowfullscreen
+              ></iframe>
+              <iframe
+                id="timecurve-style"
+                title="Style Comparison"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div id="timecurve-placeholder" class="telemetry-placeholder">
+              <p>僅在日本鈴鹿站提供 TimeCurve 與風格比較圖。</p>
+            </div>
           </div>
         </div>
 
