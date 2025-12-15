@@ -30,6 +30,17 @@ const races = [
   { slug: "2024_united_arab_emirates", label: "阿聯" },
 ];
 
+function findRaceBySlug(slug) {
+  if (!slug) return null;
+  return races.find((r) => r.slug === slug) || null;
+}
+
+function getInitialRace() {
+  const params = new URLSearchParams(window.location.search);
+  const raceParam = params.get("race");
+  return findRaceBySlug(raceParam) || races[0];
+}
+
 const listEl = document.getElementById("driverList");
 const canvas = document.getElementById("trackCanvas");
 const ctx = canvas.getContext("2d");
@@ -337,7 +348,17 @@ function stopAnimation() {
   updateProgressBars();
 }
 
-async function loadRace(race) {
+async function loadRace(raceInput) {
+  const race = typeof raceInput === "string" ? findRaceBySlug(raceInput) : raceInput;
+  if (!race) {
+    statusEl.textContent = "找不到對應的賽事資料";
+    codeEl.textContent = "---";
+    nameEl.textContent = "No race data";
+    noteEl.textContent = "";
+    progressEl.innerHTML = "";
+    return;
+  }
+
   stopAnimation();
   setActiveRace(race.slug);
   state.currentRace = race;
@@ -434,7 +455,7 @@ async function loadRace(race) {
 window.addEventListener("resize", resizeCanvas);
 renderRaceButtons();
 preloadMarkerImages();
-if (races.length) loadRace(races[0]);
+if (races.length) loadRace(getInitialRace());
 
 progressSlider.addEventListener("pointerdown", () => { state.isScrubbing = true; stopAnimation(); });
 progressSlider.addEventListener("pointerup", () => {
