@@ -53,13 +53,40 @@
     </section>
 
     <section class="trackContainer">
-        <div class="graph">
-            <div class="timeCurve">
-                <h3>Telemetry Analysis (Coming Soon)</h3>
+        <div class="analysisHeader">
+            <div>
+                <div class="analysis-label">Track Analysis</div>
+                <h2 id="analysis-title">Selected Track</h2>
+                <div id="analysis-location" class="analysis-location"></div>
             </div>
-            <div class="track"></div>
+            <div class="Totop">Back to World Map</div>
         </div>
-        <div class="Totop">Back to World Map</div>
+
+        <div class="analysisContent">
+            <div class="analysisLeft">
+                <div class="timeCurve">
+                    <h3>Telemetry Analysis</h3>
+                    <p class="coming-soon">Coming Soon</p>
+                </div>
+            </div>
+
+            <div class="analysisRight">
+                <div class="animationHeader">
+                    <div>
+                        <div class="analysis-label">Race Animation</div>
+                        <div id="animation-status" class="animation-status">Loading...</div>
+                    </div>
+                    <div class="animation-note">Powered by the animation module</div>
+                </div>
+                <div class="animationEmbed">
+                    <iframe id="animation-frame" title="Race Animation" allowfullscreen></iframe>
+                    <div id="animation-placeholder" class="animation-placeholder" role="alert">
+                        <p>No animation data available for this track yet.</p>
+                        <p class="placeholder-hint">Select another circuit to view available race replays.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script src="worldMap.js"></script>
