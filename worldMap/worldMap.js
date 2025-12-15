@@ -713,6 +713,13 @@ d3.select(".resetButton").on("click", () => {
     });
 });
 
+const driverStyleBtn = document.getElementById("driver-style-btn");
+if (driverStyleBtn) {
+  driverStyleBtn.addEventListener("click", () => {
+    window.open("./scatter_plot/driver_style_viewer.html", "_blank");
+  });
+}
+
 function showTrackView(d) {
   document.querySelector(".sectionWorldMap").style.display = "none";
   document.querySelector(".trackContainer").style.display = "flex";
