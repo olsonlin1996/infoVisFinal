@@ -27,6 +27,34 @@ const teamColors = {
     "Haas": "#B6BABD"
 };
 
+const circuitToRaceSlug = {
+    "bahrain": "2024_bahrain",
+    "jeddah": "2024_saudi_arabia",
+    "albert_park": "2024_australia",
+    "suzuka": "2024_japan",
+    "shanghai": "2024_china",
+    "miami": "2024_united_states",
+    "imola": "2024_italy",
+    "monaco": "2024_monaco",
+    "villeneuve": "2024_canada",
+    "catalunya": "2024_spain",
+    "red_bull_ring": "2024_austria",
+    "silverstone": "2024_united_kingdom",
+    "hungaroring": "2024_hungary",
+    "spa": "2024_belgium",
+    "zandvoort": "2024_netherlands",
+    "monza": "2024_italy",
+    "baku": "2024_azerbaijan",
+    "marina_bay": "2024_singapore",
+    "americas": "2024_united_states",
+    "austin": "2024_united_states",
+    "rodriguez": "2024_mexico",
+    "interlagos": "2024_brazil",
+    "las_vegas": "2024_united_states",
+    "losail": "2024_qatar",
+    "yas_marina": "2024_united_arab_emirates"
+};
+
 const teamHomeTracksList = [
     { team: "Red Bull", circuitId: "silverstone", label: "Milton Keynes, UK" },
     { team: "Mercedes", circuitId: "silverstone", label: "Brackley, UK" },
@@ -472,6 +500,11 @@ function updateInfoPanel(d) {
     }
 }
 
+function getRaceSlugForCircuit(circuitId) {
+    if (!circuitId) return null;
+    return circuitToRaceSlug[circuitId] || null;
+}
+
 function renderTeamList(allCircuits) {
     const listDiv = document.getElementById('team-list-content');
     listDiv.innerHTML = "";
@@ -542,10 +575,37 @@ d3.select('.resetButton').on('click', () => {
 function showTrackView(d) {
     document.querySelector('.sectionWorldMap').style.display = 'none';
     document.querySelector('.trackContainer').style.display = 'flex';
-    d3.select(".track").html(`<h2 style='color:white;text-align:center;margin-top:50px;'>${d.circuitName}</h2>`);
+
+    const titleEl = document.getElementById('analysis-title');
+    const locationEl = document.getElementById('analysis-location');
+    const animationStatus = document.getElementById('animation-status');
+    const iframe = document.getElementById('animation-frame');
+    const placeholder = document.getElementById('animation-placeholder');
+
+    titleEl.innerText = d.circuitName;
+    locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
+
+    const raceSlug = getRaceSlugForCircuit(d.circuitId);
+    if (raceSlug) {
+        iframe.src = `./animation/index.html?race=${raceSlug}`;
+        iframe.style.display = 'block';
+        placeholder.style.display = 'none';
+        animationStatus.innerText = `${d.circuitName} race replay`;
+    } else {
+        iframe.src = '';
+        iframe.style.display = 'none';
+        placeholder.style.display = 'flex';
+        placeholder.innerHTML = `
+            <p>No animation data available for ${d.circuitName} yet.</p>
+            <p class="placeholder-hint">Select another circuit to view available race replays.</p>
+        `;
+        animationStatus.innerText = 'Animation unavailable';
+    }
 }
 
 document.querySelector('.Totop').addEventListener('click', () => {
     document.querySelector('.trackContainer').style.display = 'none';
     document.querySelector('.sectionWorldMap').style.display = 'flex';
+    const iframe = document.getElementById('animation-frame');
+    if (iframe) iframe.src = '';
 });
