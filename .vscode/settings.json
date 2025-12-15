@@ -14,5 +14,10 @@
         "Totop",
         "zandvoort",
         "zoomable"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#5C043B",
+        "titleBar.activeBackground": "#810653",
+        "titleBar.activeForeground": "#FFFBFD"
+    }
 }
