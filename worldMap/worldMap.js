@@ -728,6 +728,7 @@ function showTrackView(d) {
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
   const timecurvePlaceholder = document.getElementById("timecurve-placeholder");
+  const japanInsightsBtn = document.getElementById("japan-insights-btn");
 
   titleEl.innerText = d.circuitName;
   locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
@@ -764,28 +765,22 @@ function showTrackView(d) {
     }
   }
 
-  if (raceSlug === "2024_japan") {
-    if (timecurvePanel) timecurvePanel.style.display = "flex";
-    if (timecurveMain) {
-      timecurveMain.src = "./timeCurve-f1/output/index_total.html";
-      timecurveMain.style.display = "block";
-    }
-    if (timecurveStyle) {
-      timecurveStyle.src = "./timeCurve-f1/output/driver_styles_comparison_S.html";
-      timecurveStyle.style.display = "block";
-    }
-    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
-  } else {
-    if (timecurvePanel) timecurvePanel.style.display = "none";
-    if (timecurveMain) {
-      timecurveMain.src = "";
-      timecurveMain.style.display = "none";
-    }
-    if (timecurveStyle) {
-      timecurveStyle.src = "";
-      timecurveStyle.style.display = "none";
-    }
-    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+  if (timecurvePanel) timecurvePanel.style.display = "none";
+  if (timecurveMain) {
+    timecurveMain.src = "";
+    timecurveMain.style.display = "none";
+  }
+  if (timecurveStyle) {
+    timecurveStyle.src = "";
+    timecurveStyle.style.display = "none";
+  }
+  if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+
+  if (japanInsightsBtn) {
+    japanInsightsBtn.style.display = raceSlug === "2024_japan" ? "block" : "none";
+    japanInsightsBtn.onclick = () => {
+      window.open("./japan-insights.html", "_blank");
+    };
   }
 }
 
@@ -798,6 +793,8 @@ document.querySelector(".Totop").addEventListener("click", () => {
   if (progressFrame) progressFrame.src = "";
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
+  const japanInsightsBtn = document.getElementById("japan-insights-btn");
   if (timecurveMain) timecurveMain.src = "";
   if (timecurveStyle) timecurveStyle.src = "";
+  if (japanInsightsBtn) japanInsightsBtn.style.display = "none";
 });

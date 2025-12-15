@@ -375,6 +375,30 @@ h1 {
   border-bottom: 1px solid #242433;
 }
 
+.insights-btn {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #e10600, #b10500);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 10px 25px rgba(225, 6, 0, 0.35);
+}
+
+.insights-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(225, 6, 0, 0.45);
+}
+
+.insights-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(225, 6, 0, 0.35);
+}
+
 .analysis-label {
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -471,6 +495,7 @@ h1 {
 
 .timecurve-card {
   flex-shrink: 0;
+  display: none;
 }
 
 .telemetry-placeholder {
