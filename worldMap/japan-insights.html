@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日本站操作風格詳情</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        background: radial-gradient(circle at top, #111125, #05050b 55%);
+        color: #fff;
+        min-height: 100vh;
+        margin: 0;
+        font-family: "Inter", "Noto Sans TC", system-ui, -apple-system, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        box-sizing: border-box;
+      }
+
+      .insights-page {
+        width: min(1200px, 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .insights-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .insights-title {
+        margin: 0;
+      }
+
+      .back-link {
+        color: #e10600;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .insights-card {
+        background: linear-gradient(145deg, #1d1d2b, #11111a);
+        border: 1px solid #1f1f2a;
+        border-radius: 10px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .insights-card h3 {
+        margin: 0;
+        color: #e10600;
+      }
+
+      .insights-card p {
+        margin: 0;
+        color: #c5c5d3;
+      }
+
+      .insights-embed {
+        position: relative;
+        background: radial-gradient(circle at center, #181826 0%, #05050b 100%);
+        border: 1px solid #252536;
+        border-radius: 8px;
+        overflow: hidden;
+        min-height: 280px;
+      }
+
+      .insights-embed iframe {
+        width: 100%;
+        height: 480px;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="insights-page">
+      <div class="insights-header">
+        <div>
+          <div class="analysis-label">Suzuka Exclusive</div>
+          <h1 class="insights-title">日本站操作風格專區</h1>
+          <p class="analysis-location">S 字彎操作相似度與駕駛風格對比</p>
+        </div>
+        <a class="back-link" href="index.html">← 返回世界地圖</a>
+      </div>
+
+      <div class="insights-card">
+        <div class="telemetry-header">
+          <div class="analysis-label">Telemetry Insights</div>
+          <h3>圈速變化與 S 字彎攻擊方式</h3>
+          <p class="telemetry-subtitle">完整 TimeCurve 展示</p>
+        </div>
+        <div class="insights-embed">
+          <iframe
+            src="./timeCurve-f1/output/index_total.html"
+            title="S-Curve Time Curve"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
+      <div class="insights-card">
+        <div class="telemetry-header">
+          <div class="analysis-label">Driver Style</div>
+          <h3>風格比較</h3>
+          <p class="telemetry-subtitle">多位車手在日本站的駕駛風格差異</p>
+        </div>
+        <div class="insights-embed">
+          <iframe
+            src="./timeCurve-f1/output/driver_styles_comparison_S.html"
+            title="Style Comparison"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
