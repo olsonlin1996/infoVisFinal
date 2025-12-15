@@ -32,6 +32,8 @@ const calendar2024 = [
 const COLOR_ACTIVE = "#e10600";
 const COLOR_INACTIVE = "#666666";
 
+const TIME_CURVE_URL = "./timeCurve-f1/output/driver_styles_comparison_S.html";
+
 const teamColors = {
   "Red Bull Racing": "#3671C6",
   "Red Bull": "#3671C6",
@@ -125,6 +127,13 @@ const tooltip = d3
   .style("pointer-events", "none")
   .style("border", "1px solid #e10600")
   .style("z-index", "1000");
+
+const timecurveOpenBtn = document.getElementById("timecurve-open-btn");
+if (timecurveOpenBtn) {
+  timecurveOpenBtn.addEventListener("click", () => {
+    window.open(TIME_CURVE_URL, "_blank");
+  });
+}
 
 const defs = svg.append("defs");
 const filterShadow = defs
@@ -771,10 +780,11 @@ function showTrackView(d) {
       timecurveMain.style.display = "block";
     }
     if (timecurveStyle) {
-      timecurveStyle.src = "./timeCurve-f1/output/driver_styles_comparison_S.html";
+      timecurveStyle.src = TIME_CURVE_URL;
       timecurveStyle.style.display = "block";
     }
     if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+    if (timecurveOpenBtn) timecurveOpenBtn.style.display = "inline-flex";
   } else {
     if (timecurvePanel) timecurvePanel.style.display = "none";
     if (timecurveMain) {
@@ -786,6 +796,7 @@ function showTrackView(d) {
       timecurveStyle.style.display = "none";
     }
     if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+    if (timecurveOpenBtn) timecurveOpenBtn.style.display = "none";
   }
 }
 
@@ -798,6 +809,7 @@ document.querySelector(".Totop").addEventListener("click", () => {
   if (progressFrame) progressFrame.src = "";
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
+  if (timecurveOpenBtn) timecurveOpenBtn.style.display = "none";
   if (timecurveMain) timecurveMain.src = "";
   if (timecurveStyle) timecurveStyle.src = "";
 });

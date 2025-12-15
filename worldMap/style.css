@@ -455,6 +455,29 @@ h1 {
   min-height: clamp(420px, 60vh, 780px);
 }
 
+.timecurve-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.timecurve-button {
+  background: linear-gradient(120deg, #e10600 0%, #ff3b30 100%);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(225, 6, 0, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.timecurve-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(225, 6, 0, 0.45);
+}
+
 .telemetry-embed iframe {
   height: 100%;
 }
