@@ -1,94 +1,117 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>F1 2024 Globe Visualizer</title>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson@3"></script>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div id="stars"></div>
     <div id="stars2"></div>
     <div id="stars3"></div>
 
     <section class="sectionWorldMap">
-        <div id="map-container">
-            <div class="resetButton">↺ Reset View</div>
-            <div id="minimap-container"></div>
+      <div id="map-container">
+        <div class="resetButton">↺ Reset View</div>
+        <div id="minimap-container"></div>
+      </div>
+
+      <div class="infoContainer">
+        <h1>F1 2024 Season</h1>
+
+        <div class="circuit-details">
+          <div class="circuit-name" id="info-name">--</div>
+          <div class="circuit-location" id="info-loc">
+            <span>📍</span>
+            <span id="info-country">Select a track on the globe</span>
+          </div>
         </div>
 
-        <div class="infoContainer">
-            <h1>F1 2024 Season</h1>
-
-            <div class="circuit-details">
-                <div class="circuit-name" id="info-name">--</div>
-                <div class="circuit-location" id="info-loc">
-                    <span>📍</span> <span id="info-country">Select a track on the globe</span>
-                </div>
+        <div class="race-results">
+          <div class="results-title">2024 Race Podium</div>
+          <div id="podium-list">
+            <div
+              style="
+                font-size: 12px;
+                color: #666;
+                text-align: center;
+                padding: 10px;
+              "
+            >
+              Select a red point to see results
             </div>
-
-            <div class="race-results">
-                <div class="results-title">2024 Race Podium</div>
-                <div id="podium-list">
-                    <div style="font-size:12px; color:#666; text-align:center; padding:10px;">
-                        Select a red point to see results
-                    </div>
-                </div>
-                <div class="weather-info" id="weather-info"></div>
-            </div>
-
-            <a href="#" id="enter-track-btn" class="enter-track-btn" style="display:none;">Enter Track Analysis</a>
-
-            <div class="team-list-wrapper">
-                <div class="team-list-title">2024 Team Home Tracks</div>
-                <div id="team-list-content">
-                    </div>
-            </div>
+          </div>
+          <div class="weather-info" id="weather-info"></div>
         </div>
+
+        <a
+          href="#"
+          id="enter-track-btn"
+          class="enter-track-btn"
+          style="display: none"
+          >Enter Track Analysis</a
+        >
+
+        <div class="team-list-wrapper">
+          <div class="team-list-title">2024 Team Home Tracks</div>
+          <div id="team-list-content"></div>
+        </div>
+      </div>
     </section>
 
     <section class="trackContainer">
-        <div class="analysisHeader">
+      <div class="analysisHeader">
+        <div>
+          <div class="analysis-label">Track Analysis</div>
+          <h2 id="analysis-title">Selected Track</h2>
+          <div id="analysis-location" class="analysis-location"></div>
+        </div>
+        <div class="Totop">Back to World Map</div>
+      </div>
+
+      <div class="analysisContent">
+        <div class="analysisLeft">
+          <div class="timeCurve">
+            <h3>Telemetry Analysis</h3>
+            <p class="coming-soon">Coming Soon</p>
+          </div>
+        </div>
+
+        <div class="analysisRight">
+          <div class="animationHeader">
             <div>
-                <div class="analysis-label">Track Analysis</div>
-                <h2 id="analysis-title">Selected Track</h2>
-                <div id="analysis-location" class="analysis-location"></div>
+              <div class="analysis-label">Race Animation</div>
+              <div id="animation-status" class="animation-status">
+                Loading...
+              </div>
             </div>
-            <div class="Totop">Back to World Map</div>
+          </div>
+          <div class="animationEmbed">
+            <iframe
+              id="animation-frame"
+              title="Race Animation"
+              allowfullscreen
+            ></iframe>
+            <div
+              id="animation-placeholder"
+              class="animation-placeholder"
+              role="alert"
+            >
+              <p>No animation data available for this track yet.</p>
+              <p class="placeholder-hint">
+                Select another circuit to view available race replays.
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div class="analysisContent">
-            <div class="analysisLeft">
-                <div class="timeCurve">
-                    <h3>Telemetry Analysis</h3>
-                    <p class="coming-soon">Coming Soon</p>
-                </div>
-            </div>
-
-            <div class="analysisRight">
-                <div class="animationHeader">
-                    <div>
-                        <div class="analysis-label">Race Animation</div>
-                        <div id="animation-status" class="animation-status">Loading...</div>
-                    </div>
-                    <div class="animation-note">Powered by the animation module</div>
-                </div>
-                <div class="animationEmbed">
-                    <iframe id="animation-frame" title="Race Animation" allowfullscreen></iframe>
-                    <div id="animation-placeholder" class="animation-placeholder" role="alert">
-                        <p>No animation data available for this track yet.</p>
-                        <p class="placeholder-hint">Select another circuit to view available race replays.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </section>
 
     <script src="worldMap.js"></script>
-</body>
+  </body>
 </html>
