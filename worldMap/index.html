@@ -76,7 +76,7 @@
 
       <div class="analysisContent">
         <div class="analysisLeft">
-          <div class="telemetry-card">
+          <div class="telemetry-card telemetry-stack">
             <div class="card-header">
               <div class="analysis-label">Telemetry Analysis</div>
               <h3 class="card-title">車手進度動畫</h3>
@@ -98,35 +98,66 @@
                 <p class="placeholder-hint">選取有動畫的賽道後會自動載入。</p>
               </div>
             </div>
-          </div>
 
-          <div class="telemetry-card timecurve-card">
-            <div class="card-header">
-              <div class="analysis-label">TimeCurve Insights</div>
-              <h3 class="card-title">鈴鹿 S 彎對比</h3>
-              <p class="card-hint">
-                以降維投影呈現 Max、Perez 與角田在 S 彎的操作差異。
-              </p>
+            <div class="subsection">
+              <div class="subsection-header">
+                <div class="analysis-label">TimeCurve Insights</div>
+                <h3 class="card-title">鈴鹿 S 彎對比</h3>
+                <p class="card-hint">
+                  以降維投影呈現 Max、Perez 與角田在 S 彎的操作差異。
+                </p>
+              </div>
+              <div class="timecurve-grid">
+                <div class="timecurve-embed">
+                  <iframe
+                    id="timecurve-primary"
+                    title="S-Curve TimeCurve"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+                <div class="timecurve-embed">
+                  <iframe
+                    id="timecurve-secondary"
+                    title="Average Style Comparison"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+              <div id="timecurve-placeholder" class="timecurve-placeholder">
+                <p>TimeCurve 圖表目前僅提供日本站資料。</p>
+                <p class="placeholder-hint">選取鈴鹿賽道即可自動顯示。</p>
+              </div>
             </div>
-            <div class="timecurve-grid">
-              <div class="timecurve-embed">
+
+            <div class="subsection">
+              <div class="subsection-header">
+                <div class="analysis-label">Consistency Check</div>
+                <h3 class="card-title">鈴鹿單圈穩定度</h3>
+                <p class="card-hint">
+                  逐圈對照 Max、Perez、角田的速度穩定性與趨勢。
+                </p>
+              </div>
+              <div class="consistency-grid">
                 <iframe
-                  id="timecurve-primary"
-                  title="S-Curve TimeCurve"
+                  id="consistency-max"
+                  title="Max Consistency"
+                  loading="lazy"
+                ></iframe>
+                <iframe
+                  id="consistency-perez"
+                  title="Perez Consistency"
+                  loading="lazy"
+                ></iframe>
+                <iframe
+                  id="consistency-tsunoda"
+                  title="Tsunoda Consistency"
                   loading="lazy"
                 ></iframe>
               </div>
-              <div class="timecurve-embed">
-                <iframe
-                  id="timecurve-secondary"
-                  title="Average Style Comparison"
-                  loading="lazy"
-                ></iframe>
+              <div id="consistency-placeholder" class="timecurve-placeholder">
+                <p>穩定度報告僅針對日本站鈴鹿賽道產出。</p>
+                <p class="placeholder-hint">選取鈴鹿賽道即可自動顯示。</p>
               </div>
-            </div>
-            <div id="timecurve-placeholder" class="timecurve-placeholder">
-              <p>TimeCurve 圖表目前僅提供日本站資料。</p>
-              <p class="placeholder-hint">選取鈴鹿賽道即可自動顯示。</p>
             </div>
           </div>
         </div>

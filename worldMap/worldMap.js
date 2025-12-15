@@ -729,6 +729,14 @@ function showTrackView(d) {
   const timecurvePlaceholder = document.getElementById(
     "timecurve-placeholder"
   );
+  const consistencyMax = document.getElementById("consistency-max");
+  const consistencyPerez = document.getElementById("consistency-perez");
+  const consistencyTsunoda = document.getElementById(
+    "consistency-tsunoda"
+  );
+  const consistencyPlaceholder = document.getElementById(
+    "consistency-placeholder"
+  );
 
   titleEl.innerText = d.circuitName;
   locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
@@ -756,12 +764,28 @@ function showTrackView(d) {
     timecurveSecondary.src = "./timeCurve-f1/output/driver_styles_comparison.html";
     timecurvePrimary.style.display = "block";
     timecurveSecondary.style.display = "block";
+
+    consistencyPlaceholder.style.display = "none";
+    consistencyMax.src = "./timeCurve-f1/output/consistency_Max.html";
+    consistencyPerez.src = "./timeCurve-f1/output/consistency_Perez.html";
+    consistencyTsunoda.src = "./timeCurve-f1/output/consistency_Tsunoda.html";
+    consistencyMax.style.display = "block";
+    consistencyPerez.style.display = "block";
+    consistencyTsunoda.style.display = "block";
   } else {
     timecurvePrimary.src = "";
     timecurveSecondary.src = "";
     timecurvePrimary.style.display = "none";
     timecurveSecondary.style.display = "none";
     timecurvePlaceholder.style.display = "block";
+
+    consistencyMax.src = "";
+    consistencyPerez.src = "";
+    consistencyTsunoda.src = "";
+    consistencyMax.style.display = "none";
+    consistencyPerez.style.display = "none";
+    consistencyTsunoda.style.display = "none";
+    consistencyPlaceholder.style.display = "block";
   }
 }
 
@@ -771,7 +795,13 @@ document.querySelector(".Totop").addEventListener("click", () => {
   const telemetryFrame = document.getElementById("telemetry-frame");
   const timecurvePrimary = document.getElementById("timecurve-primary");
   const timecurveSecondary = document.getElementById("timecurve-secondary");
+  const consistencyMax = document.getElementById("consistency-max");
+  const consistencyPerez = document.getElementById("consistency-perez");
+  const consistencyTsunoda = document.getElementById("consistency-tsunoda");
   if (telemetryFrame) telemetryFrame.src = "";
   if (timecurvePrimary) timecurvePrimary.src = "";
   if (timecurveSecondary) timecurveSecondary.src = "";
+  if (consistencyMax) consistencyMax.src = "";
+  if (consistencyPerez) consistencyPerez.src = "";
+  if (consistencyTsunoda) consistencyTsunoda.src = "";
 });
