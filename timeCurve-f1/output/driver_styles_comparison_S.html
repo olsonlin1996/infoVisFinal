@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>F1 Driver Style Comparison: Average Trajectories (S-Curves)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #111;
+            color: #eee;
+            text-align: center;
+        }
+
+        #chart {
+            background: #222;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            margin: 20px;
+        }
+
+        button {
+            background: #e10600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+
+        button:hover {
+            background: #ff1e1e;
+        }
+
+        button.active {
+            background: #5ec962;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-line {
+            width: 40px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .explanation {
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: left;
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #e10600;
+            line-height: 1.6;
+        }
+
+        .explanation h2 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .explanation p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .explanation strong {
+            color: #fff;
+        }
+
+        /* Driver line styles */
+        .driver-line {
+            fill: none;
+            stroke-width: 3;
+            opacity: 0.3;
+            transition: opacity 0.3s, stroke-width 0.3s;
+        }
+
+        .driver-line.active {
+            stroke-width: 5;
+            opacity: 1.0;
+            filter: brightness(1.3) drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+        }
+
+        .driver-marker {
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .driver-marker.active {
+            opacity: 1.0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Driver Style Comparison (Average Trajectories - S-Curves)</h1>
+    <p>Comparing the average driving style of three drivers through the S-Curves section (Sector 1, T3-T7).</p>
+
+    <div class="controls">
+        <button id="btn-all" class="active">Show All</button>
+        <button id="btn-verstappen">Verstappen Only</button>
+        <button id="btn-perez">Perez Only</button>
+        <button id="btn-tsunoda">Tsunoda Only</button>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-line" style="background: #9D4EDD;"></div>
+            <span>Max Verstappen (#1)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #0096C7;"></div>
+            <span>Sergio Perez (#11)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #FFD60A;"></div>
+            <span>Yuki Tsunoda (#22)</span>
+        </div>
+    </div>
+
+    <div id="chart"></div>
+
+    <div class="explanation">
+        <h2>📊 如何解讀此圖表 (How to Read)</h2>
+        <p>此圖展示了三位車手在 S 彎區域的<strong>平均駕駛風格</strong>。每條線代表該車手所有圈次的平均操作模式。</p>
+        <p>
+            <strong>1. 軌跡重疊 (Overlap)：</strong><br>
+            若兩條線緊密重疊，代表兩位車手的平均駕駛風格相似。分歧處則顯示操作差異。
+        </p>
+        <p>
+            <strong>2. 互動功能 (Interactive)：</strong><br>
+            點擊上方按鈕可以單獨查看某位車手的軌跡，或顯示全部進行比較。<br>
+            <strong>○</strong> = 起點 (入彎) | <strong>×</strong> = 終點 (出彎)
+        </p>
+        <p>
+            <strong>3. 風格差異 (Style Differences)：</strong><br>
+            觀察三條線的形狀和位置差異，可以看出：
+        <ul>
+            <li><strong>Verstappen vs Perez</strong>：同隊車手，差異反映個人駕駛習慣</li>
+            <li><strong>Tsunoda</strong>：不同車隊(AlphaTauri)，差異包含賽車性能因素</li>
+        </ul>
+        </p>
+    </div>
+
+    <script>
+        const width = 800;
+        const height = 600;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Color mapping
+        const colors = {
+            1: '#9D4EDD',   // Verstappen - Purple
+            11: '#0096C7',  // Perez - Blue
+            22: '#FFD60A'   // Tsunoda - Yellow
+        };
+
+        const driverNames = {
+            1: 'Verstappen',
+            11: 'Perez',
+            22: 'Tsunoda'
+        };
+
+        d3.csv("driver_average_styles_S.csv").then(data => {
+
+            // Parse numbers
+            data.forEach(d => {
+                d.mds_x = +d.mds_x;
+                d.mds_y = +d.mds_y;
+                d.driver = +d.driver;
+            });
+
+            // Group by driver
+            const drivers = d3.groups(data, d => d.driver);
+
+            // Scales
+            const xScale = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.mds_x))
+                .range([0, width - margin.left - margin.right]);
+
+            const yScale = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.mds_y))
+                .range([height - margin.top - margin.bottom, 0]);
+
+            // Line generator
+            const line = d3.line()
+                .x(d => xScale(d.mds_x))
+                .y(d => yScale(d.mds_y))
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            // Draw driver lines
+            const paths = g.selectAll(".driver-line")
+                .data(drivers)
+                .enter().append("path")
+                .attr("class", "driver-line active")
+                .attr("d", d => line(d[1]))
+                .attr("stroke", d => colors[d[0]])
+                .attr("id", d => "driver-" + d[0]);
+
+            // Draw markers
+            const startMarkers = g.selectAll(".start-marker")
+                .data(drivers)
+                .enter().append("circle")
+                .attr("class", d => "driver-marker active start-" + d[0])
+                .attr("cx", d => xScale(d[1][0].mds_x))
+                .attr("cy", d => yScale(d[1][0].mds_y))
+                .attr("r", 6)
+                .attr("fill", d => colors[d[0]])
+                .attr("stroke", "white")
+                .attr("stroke-width", 2);
+
+            const endMarkers = g.selectAll(".end-marker")
+                .data(drivers)
+                .enter().append("path")
+                .attr("class", d => "driver-marker active end-" + d[0])
+                .attr("d", d3.symbol().type(d3.symbolCross).size(100))
+                .attr("transform", d => `translate(${xScale(d[1][d[1].length - 1].mds_x)},${yScale(d[1][d[1].length - 1].mds_y)})`)
+                .attr("fill", d => colors[d[0]])
+                .attr("stroke", "white")
+                .attr("stroke-width", 1);
+
+            // Button handlers
+            function updateView(driverFilter) {
+                // Update button states
+                d3.selectAll(".controls button").classed("active", false);
+
+                if (driverFilter === 'all') {
+                    d3.select("#btn-all").classed("active", true);
+                    // Show all
+                    paths.classed("active", true);
+                    d3.selectAll(".driver-marker").classed("active", true);
+                } else {
+                    d3.select(`#btn-${driverFilter}`).classed("active", true);
+                    // Show only selected driver
+                    paths.classed("active", d => driverNames[d[0]].toLowerCase() === driverFilter);
+                    d3.selectAll(".driver-marker").classed("active", false);
+                    d3.selectAll(`.start-${Object.keys(driverNames).find(k => driverNames[k].toLowerCase() === driverFilter)}`)
+                        .classed("active", true);
+                    d3.selectAll(`.end-${Object.keys(driverNames).find(k => driverNames[k].toLowerCase() === driverFilter)}`)
+                        .classed("active", true);
+                }
+            }
+
+            // Event listeners
+            d3.select("#btn-all").on("click", () => updateView('all'));
+            d3.select("#btn-verstappen").on("click", () => updateView('verstappen'));
+            d3.select("#btn-perez").on("click", () => updateView('perez'));
+            d3.select("#btn-tsunoda").on("click", () => updateView('tsunoda'));
+
+        }).catch(err => {
+            console.error(err);
+            d3.select("#chart").append("p").text("Error loading CSV. Make sure you ran the python script.");
+        });
+
+    </script>
+</body>
+
+</html>

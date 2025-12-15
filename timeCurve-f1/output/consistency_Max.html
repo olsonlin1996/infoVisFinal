@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>F1 Driver Consistency Analysis: Verstappen S-Curves</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #111;
+            color: #eee;
+            text-align: center;
+        }
+
+        #chart {
+            background: #222;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            margin: 20px;
+        }
+
+        button {
+            background: #e10600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #ff1e1e;
+        }
+
+        .legend {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .color-bar-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .color-bar {
+            width: 300px;
+            height: 12px;
+            background: linear-gradient(to right, #440154, #3b528b, #21918c, #5ec962, #fde725);
+            border-radius: 6px;
+            margin: 0 10px;
+        }
+
+        .explanation {
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: left;
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #e10600;
+            line-height: 1.6;
+        }
+
+        .explanation h2 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .explanation p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .explanation strong {
+            color: #fff;
+        }
+
+        /* Highlight styles */
+        .lap-line {
+            fill: none;
+            stroke-width: 1.5;
+            opacity: 0.1;
+            transition: opacity 0.3s, stroke-width 0.3s;
+        }
+
+        .lap-line.active {
+            stroke-width: 4;
+            opacity: 1.0;
+            filter: brightness(1.3) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Driver Consistency: Max Verstappen (Lap Evolution)</h1>
+    <p>Visualizing how execution of the S-Curves changes throughout the race.</p>
+
+    <div class="controls">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <div>
+                <label for="lapSelect" style="color: #ccc; margin-right: 5px;">Select Lap:</label>
+                <select id="lapSelect"
+                    style="background: #333; color: white; border: 1px solid #555; padding: 5px; border-radius: 4px;">
+                    <!-- Options populated by JS -->
+                </select>
+            </div>
+
+            <div>
+                <button id="playButton"
+                    style="background: #e10600; color: white; border: none; padding: 8px 16px; font-size: 16px; cursor: pointer; border-radius: 4px;">
+                    ▶ Play
+                </button>
+            </div>
+
+            <div style="flex-grow: 1; text-align: left;">
+                <input type="range" id="lapSlider" min="1" max="53" value="1" style="width: 100%;">
+            </div>
+        </div>
+        <div class="color-bar-container">
+            <span>Lap 1 (Early)</span>
+            <div class="color-bar"></div>
+            <span>Lap 53 (Late)</span>
+        </div>
+        <p style="font-size: 12px; color: #888;">(Color represents Race Progress: Purple=Start -> Yellow=End)</p>
+    </div>
+
+    <div id="chart"></div>
+
+    <div class="explanation">
+        <h2>📊 如何解讀此圖表 (How to Read)</h2>
+        <p>此圖展示了 Max Verstappen 在<strong>每一圈</strong>經過 S 彎時的操作特徵投影。</p>
+        <p>
+            <strong>1. 一致性 (Consistency)：</strong><br>
+            <span style="color: white; font-weight: bold;">— 白色實線</span> 代表整場比賽的<strong>最快圈 (Fastest Lap)</strong>。<br>
+            當前圈數（高亮線）若與實線重合，代表操作接近最佳表現；若偏離，則代表該圈的操作與最快圈有差異。
+        </p>
+        <p>
+            <strong>2. 演變 (Evolution)：</strong><br>
+            試著拖動滑桿或選擇圈數，觀察高亮線的移動。<br>
+        <ul>
+            <li><strong>紅色連結線</strong>：顯示當前圈與最快圈的起點差異。線越長，差異越大。</li>
+            <li>是否有<strong>向某一側飄移</strong>的趨勢？(可能代表輪胎衰退導致煞車點改變)</li>
+        </ul>
+        </p>
+    </div>
+
+    <script>
+        const width = 800;
+        const height = 600;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Color Scale for background context (Optional: Time degradation color)
+        // Viridis: Early = Purple, Late = Yellow
+        const colorScale = d3.scaleSequential(d3.interpolateViridis).domain([1, 53]);
+
+        d3.csv("driver_laps_data.csv").then(data => {
+
+            // Parse numbers
+            data.forEach(d => {
+                d.mds_x = +d.mds_x;
+                d.mds_y = +d.mds_y;
+                d.lap = +d.lap;
+            });
+
+            // Separate Fastest Lap (lap=-1) vs Regular Laps
+            const meanData = data.filter(d => d.lap === -1);  // meanData stores fastest lap for compatibility
+            const lapData = data.filter(d => d.lap !== -1);
+
+            // Scales
+            const xScale = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.mds_x))
+                .range([0, width - margin.left - margin.right]);
+
+            const yScale = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.mds_y))
+                .range([height - margin.top - margin.bottom, 0]);
+
+            // Curve Gen
+            const line = d3.line()
+                .x(d => xScale(d.mds_x))
+                .y(d => yScale(d.mds_y))
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            // Draw Fastest Lap (Reference)
+            if (meanData.length > 0) {
+                g.append("path")
+                    .datum(meanData)
+                    .attr("class", "mean-line")
+                    .attr("d", line)
+                    .attr("fill", "none")
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 3)
+                    .attr("opacity", 0.7);
+            }
+
+            // Group by Lap
+            const laps = d3.groups(lapData, d => d.lap).sort((a, b) => a[0] - b[0]);
+
+            // Draw all laps (Background Context)
+            const paths = g.selectAll(".lap-line")
+                .data(laps)
+                .enter().append("path")
+                .attr("class", "lap-line")
+                .attr("d", d => line(d[1]))
+                .attr("stroke", d => colorScale(d[0])) // Color by Lap number
+                .attr("id", d => "lap-" + d[0]);
+
+            // Deviation Line (Dynamic)
+            const devLine = g.append("line")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1)
+                .attr("opacity", 0);
+
+            // Animation Logic
+            let currentLap = laps[0][0]; // Start at first available lap
+            const minLap = currentLap;
+            const maxLap = d3.max(lapData, d => d.lap);
+
+            // Populate Dropdown
+            const select = d3.select("#lapSelect");
+            laps.forEach(l => {
+                select.append("option").text(`Lap ${l[0]}`).attr("value", l[0]);
+            });
+
+            // Update SLIDER Range
+            d3.select("#lapSlider")
+                .attr("min", minLap)
+                .attr("max", maxLap)
+                .attr("value", currentLap);
+
+            function update(lapNum) {
+                currentLap = lapNum;
+                // Sync UI
+                d3.select("#lapSlider").property("value", lapNum);
+                d3.select("#lapSelect").property("value", lapNum);
+
+                // Reset all
+                paths.classed("active", false)
+                    .attr("opacity", 0.1)
+                    .attr("stroke", d => colorScale(d[0])); // Reset color
+
+                // Highlight selected
+                const activePath = d3.select("#lap-" + lapNum);
+                activePath.classed("active", true)
+                    .attr("opacity", 1)
+                    .raise(); // Bring to front
+
+                // Update Deviation Line
+                const activeLapData = laps.find(l => l[0] === lapNum);
+                if (activeLapData && meanData.length > 0) {
+                    // Connect the first point of the active lap to the first point of the fastest lap
+                    const activePoint = activeLapData[1][0]; // First point of the active lap
+                    const meanPoint = meanData[0]; // First point of the fastest lap
+
+                    if (activePoint && meanPoint) {
+                        devLine.attr("x1", xScale(activePoint.mds_x))
+                            .attr("y1", yScale(activePoint.mds_y))
+                            .attr("x2", xScale(meanPoint.mds_x))
+                            .attr("y2", yScale(meanPoint.mds_y))
+                            .attr("opacity", 1)
+                            .raise(); // Bring to front
+                    } else {
+                        devLine.attr("opacity", 0);
+                    }
+                } else {
+                    devLine.attr("opacity", 0);
+                }
+            }
+
+            // Play/Pause state variables (must be declared before event handlers)
+            let isPlaying = false;
+            let playInterval = null;
+            const playButton = d3.select("#playButton");
+
+            // Events
+            d3.select("#lapSlider").on("input", function () {
+                // Stop playing if user manually changes lap
+                if (isPlaying) {
+                    clearInterval(playInterval);
+                    playInterval = null;
+                    isPlaying = false;
+                    playButton.text("▶ Play");
+                }
+                update(+this.value);
+            });
+
+            d3.select("#lapSelect").on("change", function () {
+                // Stop playing if user manually changes lap
+                if (isPlaying) {
+                    clearInterval(playInterval);
+                    playInterval = null;
+                    isPlaying = false;
+                    playButton.text("▶ Play");
+                }
+                update(+this.value);
+            });
+
+            // Init
+            update(minLap);
+
+            // Play/Pause button click handler
+            playButton.on("click", function () {
+                if (isPlaying) {
+                    // Pause
+                    clearInterval(playInterval);
+                    playInterval = null;
+                    isPlaying = false;
+                    playButton.text("▶ Play");
+                } else {
+                    // Play
+                    isPlaying = true;
+                    playButton.text("⏸ Pause");
+
+                    playInterval = setInterval(() => {
+                        // Advance to next lap
+                        currentLap++;
+
+                        // Loop back to start if we reach the end
+                        if (currentLap > maxLap) {
+                            currentLap = minLap;
+                        }
+
+                        update(currentLap);
+                    }, 800); // 0.8 seconds
+                }
+            });
+
+
+        }).catch(err => {
+            console.error(err);
+            d3.select("#chart").append("p").text("Error loading CSV. Make sure you ran the python script.");
+        });
+
+    </script>
+</body>
+
+</html>

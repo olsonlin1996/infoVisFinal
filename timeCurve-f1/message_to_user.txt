@@ -1,0 +1,7 @@
+I have corrected the file paths in the script. Now the script should be able to find the data files and write the output file correctly.
+
+Please run the script again using the same command as before:
+```bash
+python scripts/generate_time_curve.py
+```
+And please share the output with me.

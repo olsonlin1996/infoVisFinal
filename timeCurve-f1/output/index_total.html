@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>F1 Time Curve Analysis: 2024 Japan S-Curves (All Features)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #111;
+            color: #eee;
+            text-align: center;
+        }
+
+        #chart {
+            background: #222;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .controls {
+            margin: 20px;
+        }
+
+        button {
+            background: #e10600;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #ff1e1e;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: white;
+            font-size: 12px;
+            text-align: left;
+            border: 1px solid #555;
+        }
+
+        .legend {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .driver-label {
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .explanation {
+            max-width: 800px;
+            margin: 30px auto;
+            text-align: left;
+            background: #222;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #e10600;
+            line-height: 1.6;
+        }
+
+        .explanation h2 {
+            margin-top: 0;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .explanation p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .explanation strong {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>F1 Time Curve: S-Curves Comparison (All Features)</h1>
+    <p>Drivers: Verstappen (1), Perez (11), Tsunoda (22)</p>
+    <p style="color: #aaa; font-size: 0.9em;">Features Used: Speed, RPM, Gear, Throttle, Brake, DRS</p>
+
+    <div class="controls">
+        <button id="playBtn">Play Animation</button>
+        <input type="range" id="timeSlider" min="0" max="100" value="0" style="width: 300px; margin-left: 20px;">
+    </div>
+
+    <div id="chart"></div>
+    <div class="legend">
+        <span class="driver-label" style="color: #4facfe;">● Verstappen (1)</span>
+        <span class="driver-label" style="color: #00f260;">● Perez (11)</span>
+        <span class="driver-label" style="color: #ff0844;">● Tsunoda (22)</span>
+    </div>
+
+    <div class="explanation">
+        <h2>📊 如何解讀此圖表 (How to Read)</h2>
+        <p>此圖並非賽道地圖，而是<strong>「全方位駕駛操作相似度空間」</strong>的投影。所有 6 個遙測特徵（速度、轉速、檔位、油門、煞車、DRS）都被納入計算。</p>
+        <p>
+            <strong>1. 距離即綜合相似度 (Distance = Overall Similarity)：</strong><br>
+            若兩個點靠得很近，代表在該瞬間，這兩位車手在<strong>所有面向的操作與車輛狀態</strong>都高度一致。<br>
+            因考慮了速度與轉速，線條的分離可能更多反映了「速度/能量狀態」的差異，而不僅僅是手腳操作。
+        </p>
+        <p>
+            <strong>2. 軸的意義 (The Axes)：</strong><br>
+            由於使用了多維度縮放 (MDS) 處理 6 維數據，軸的物理意義是抽象的。但通常 X 軸仍會主導與「賽道進程/速度變化」相關的最大變異方向。
+        </p>
+        <p>
+            <strong>3. 觀察重點 (Key Insight)：</strong><br>
+            對比原版 (僅操作) 的圖表，觀察此圖中的分歧是否更明顯？如果這裡分歧更大，代表即使操作看似相似，車輛的物理狀態 (速度/轉速) 其實已有顯著不同。
+        </p>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Config
+        const width = 800;
+        const height = 600;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const colors = { 1: '#4facfe', 11: '#00f260', 22: '#ff0844' }; // Blue, Green, Red
+
+        // SVG Setup
+        const svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Scales
+        const xScale = d3.scaleLinear().range([0, width - margin.left - margin.right]);
+        const yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Load Data (Total Features)
+        d3.csv("comparison_scurve_total_data.csv").then(data => {
+
+            // Parse numbers
+            data.forEach(d => {
+                d.mds_x = +d.mds_x;
+                d.mds_y = +d.mds_y;
+                d.driver = +d.driver;
+                d.speed = +d.speed;
+                d.throttle = +d.throttle;
+                d.brake = +d.brake;
+                d.rpm = +d.rpm;
+                d.n_gear = +d.n_gear;
+                d.drs = +d.drs;
+            });
+
+            // Set Domains
+            xScale.domain(d3.extent(data, d => d.mds_x));
+            yScale.domain(d3.extent(data, d => d.mds_y));
+
+            // Group by Driver
+            const drivers = [1, 11, 22];
+            const nestedData = drivers.map(id => {
+                return {
+                    id: id,
+                    values: data.filter(d => d.driver === id)
+                };
+            });
+
+            // Draw Curves (Background)
+            const line = d3.line()
+                .x(d => xScale(d.mds_x))
+                .y(d => yScale(d.mds_y))
+                .curve(d3.curveCatmullRom.alpha(0.5));
+
+            g.selectAll(".trace")
+                .data(nestedData)
+                .enter().append("path")
+                .attr("class", "trace")
+                .attr("d", d => line(d.values))
+                .attr("stroke", d => colors[d.id])
+                .attr("stroke-width", 2)
+                .attr("fill", "none")
+                .attr("opacity", 0.3); // Faint background trail
+
+            // Draw Moving Dots
+            const dots = g.selectAll(".dot")
+                .data(nestedData)
+                .enter().append("circle")
+                .attr("class", "dot")
+                .attr("r", 8)
+                .attr("fill", d => colors[d.id])
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2)
+                .on("mouseover", function (event, d) {
+                    // Note: 'd' here is the group data (id, values), not the current point
+                    // We need to access the current point based on 'currentStep'
+                    // Since we can't easily pass currentStep here cleanly without closure, 
+                    // let's rely on the update function to update tooltip if it's visible?
+                    // Actually simpliest is to just show Driver Name here
+                    tooltip.style("opacity", 1)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 28) + "px")
+                        .html(`Driver: ${d.id}`);
+                })
+                .on("mouseout", function () {
+                    tooltip.style("opacity", 0);
+                });
+
+            // Animation Logic
+            let maxSteps = d3.max(nestedData, d => d.values.length);
+            let currentStep = 0;
+            let isPlaying = false;
+            let timer;
+
+            function update(step, duration = 0) {
+                currentStep = step;
+                d3.select("#timeSlider").property("value", step);
+
+                dots.each(function (d) {
+                    const idx = Math.min(step, d.values.length - 1);
+                    const point = d.values[idx];
+
+                    const dot = d3.select(this);
+
+                    if (duration > 0) {
+                        dot.transition().duration(duration).ease(d3.easeLinear)
+                            .attr("cx", xScale(point.mds_x))
+                            .attr("cy", yScale(point.mds_y));
+                    } else {
+                        dot.interrupt()
+                            .attr("cx", xScale(point.mds_x))
+                            .attr("cy", yScale(point.mds_y));
+                    }
+
+                    // Simple tooltip update logic: if we wanted to show specific telemetry on hover, we could do it here
+                    // assuming user is hovering over the moving dot.
+                    dot.on("mouseover", function (event) {
+                        tooltip.style("opacity", 1)
+                            .style("left", (event.pageX + 15) + "px")
+                            .style("top", (event.pageY - 28) + "px")
+                            .html(`
+                             <strong>Driver ${d.id}</strong><br>
+                             Speed: ${point.speed} km/h<br>
+                             RPM: ${point.rpm}<br>
+                             Gear: ${point.n_gear}<br>
+                             Throttle: ${point.throttle}%<br>
+                             Brake: ${point.brake}%
+                           `);
+                    })
+                        .on("mouseout", function () {
+                            tooltip.style("opacity", 0);
+                        });
+
+                });
+            }
+
+            // Slider Config
+            d3.select("#timeSlider")
+                .attr("max", maxSteps - 1)
+                .on("input", function () {
+                    stop();
+                    update(+this.value);
+                });
+
+            // Play/Pause
+            function play() {
+                if (isPlaying) return;
+                isPlaying = true;
+                d3.select("#playBtn").text("Pause");
+
+                timer = setInterval(() => {
+                    currentStep++;
+                    if (currentStep >= maxSteps) {
+                        currentStep = 0;
+                        update(currentStep, 0); // Instant reset to start
+                    } else {
+                        update(currentStep, 1000); // Smooth slide to next
+                    }
+                }, 1000); // 1000ms per step
+            }
+
+            function stop() {
+                isPlaying = false;
+                d3.select("#playBtn").text("Play Animation");
+                clearInterval(timer);
+            }
+
+            d3.select("#playBtn").on("click", function () {
+                if (isPlaying) stop();
+                else play();
+            });
+
+            // Initialize
+            update(0);
+
+        }).catch(err => {
+            console.error(err);
+            d3.select("#chart").append("p").text("Error loading CSV data. Please check console.");
+        });
+
+    </script>
+</body>
+
+</html>

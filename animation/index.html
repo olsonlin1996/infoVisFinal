@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 車手路線動畫</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>本站示例：F1 車手路線動畫（選擇國家正賽，同步播放 20 車手）</h1>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div style="margin-bottom:10px; color:var(--muted); font-size:14px;">左側列出 21 個國家正賽，點擊按鈕會載入該場正賽的 20 位車手一起跑的動畫。</div>
+      <div id="driverList" class="driver-list"></div>
+    </section>
+
+    <section class="panel content">
+      <div class="canvas-wrap">
+        <canvas id="trackCanvas"></canvas>
+      </div>
+      <div class="info">
+        <span class="badge" id="driverCode">---</span>
+        <strong id="driverName">全部車手</strong>
+        <span id="driverNote"></span>
+        <span class="status" id="statusText"></span>
+      </div>
+      <div class="control-row">
+        <label for="progressSlider" class="control-label">進度拖曳</label>
+        <input id="progressSlider" type="range" min="0" max="100" value="0" step="50" />
+        <span id="progressTime" class="control-time">T+00:00</span>
+      </div>
+      <div class="hint">
+        請先用 <code>generate_driver_json.py</code> 產生 <code>driver_json</code> 下的 <code>drivers.json</code> 與各車手 <code>{code}.json</code> 檔案，本頁直接讀檔，不會連後端 API。
+      </div>
+    </section>
+  </main>
+
+  <section class="panel progress-panel">
+    <h2 style="margin-top:0; font-size:16px; color:var(--text);">車手進度</h2>
+    <div id="progressList" class="progress-list"></div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

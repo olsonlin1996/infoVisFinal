@@ -1,0 +1,18 @@
+--- F1 S-Curve Divergence Analysis ---
+Segments analyzed: 54 points
+Maximum Divergence at Index: 38
+Euclidean Distance in Similarity Space: 1.3747
+
+Max Verstappen State:
+speed        209
+throttle       0
+brake        100
+n_gear         6
+rpm         8996
+
+Sergio Perez State:
+speed         225
+throttle       94
+brake           0
+n_gear          6
+rpm         10138
