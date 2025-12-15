@@ -178,3 +178,22 @@ canvas { width: 100%; height: 70vh; display: block; }
   border-radius: inherit;
   transition: width 0.12s linear;
 }
+
+/* Embeds */
+body.embed-animation header { display: none; }
+body.embed-animation main { grid-template-columns: 1fr; padding: 0; }
+body.embed-animation .panel { border-radius: 0; box-shadow: none; border: none; }
+body.embed-animation .progress-panel { display: none; }
+
+body.embed-progress { background: #0b0f14; }
+body.embed-progress header { display: none; }
+body.embed-progress main { display: block; padding: 8px; }
+body.embed-progress .panel.content {
+  max-height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0;
+}
+body.embed-progress canvas { height: 1px; }
+body.embed-progress .panel.progress-panel { margin: 0; }
