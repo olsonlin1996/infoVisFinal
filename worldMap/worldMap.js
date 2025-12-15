@@ -728,7 +728,9 @@ function showTrackView(d) {
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
   const timecurvePlaceholder = document.getElementById("timecurve-placeholder");
-  const japanInsightsBtn = document.getElementById("japan-insights-btn");
+  const japanInsightsGroup = document.getElementById("japan-insights-group");
+  const japanTimecurveBtn = document.getElementById("japan-timecurve-btn");
+  const japanStyleBtn = document.getElementById("japan-style-btn");
 
   titleEl.innerText = d.circuitName;
   locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
@@ -776,11 +778,23 @@ function showTrackView(d) {
   }
   if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
 
-  if (japanInsightsBtn) {
-    japanInsightsBtn.style.display = raceSlug === "2024_japan" ? "block" : "none";
-    japanInsightsBtn.onclick = () => {
-      window.open("./japan-insights.html", "_blank");
-    };
+  if (japanInsightsGroup) {
+    const isJapan = raceSlug === "2024_japan";
+    japanInsightsGroup.style.display = isJapan ? "flex" : "none";
+
+    if (isJapan) {
+      if (japanTimecurveBtn) {
+        japanTimecurveBtn.onclick = () => {
+          window.open("./japan-insights.html", "_blank");
+        };
+      }
+
+      if (japanStyleBtn) {
+        japanStyleBtn.onclick = () => {
+          window.open("./japan-style-insights.html", "_blank");
+        };
+      }
+    }
   }
 }
 
@@ -793,8 +807,8 @@ document.querySelector(".Totop").addEventListener("click", () => {
   if (progressFrame) progressFrame.src = "";
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
-  const japanInsightsBtn = document.getElementById("japan-insights-btn");
+  const japanInsightsGroup = document.getElementById("japan-insights-group");
   if (timecurveMain) timecurveMain.src = "";
   if (timecurveStyle) timecurveStyle.src = "";
-  if (japanInsightsBtn) japanInsightsBtn.style.display = "none";
+  if (japanInsightsGroup) japanInsightsGroup.style.display = "none";
 });

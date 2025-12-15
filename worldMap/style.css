@@ -399,6 +399,25 @@ h1 {
   box-shadow: 0 8px 18px rgba(225, 6, 0, 0.35);
 }
 
+.insights-btn-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.insights-btn--secondary {
+  background: linear-gradient(135deg, #2b2b3c, #1a1a26);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.insights-btn--secondary:hover {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+}
+
+.insights-btn--secondary:active {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
 .analysis-label {
   text-transform: uppercase;
   letter-spacing: 1px;
