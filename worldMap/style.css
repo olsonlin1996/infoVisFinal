@@ -56,6 +56,7 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
+  min-height: 700px;
 }
 
 #map-container {
@@ -409,6 +410,7 @@ h1 {
   gap: 12px;
   overflow-y: auto;
   min-width: 0;
+  min-height: 640px;
 }
 
 .telemetryCard {
@@ -420,6 +422,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-height: 320px;
 }
 
 .telemetry-header h3 {
@@ -441,6 +444,7 @@ h1 {
   border-radius: 8px;
   overflow: hidden;
   min-height: 220px;
+  align-items: stretch;
 }
 
 .telemetry-embed iframe,
@@ -463,6 +467,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
+  min-height: 580px;
 }
 
 .timecurve-card iframe {
@@ -471,6 +476,7 @@ h1 {
 
 .timecurve-card {
   flex-shrink: 0;
+  min-height: 640px;
 }
 
 .telemetry-placeholder {
