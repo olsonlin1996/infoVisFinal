@@ -776,7 +776,7 @@ function showTrackView(d) {
     }
     if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
   } else {
-    if (timecurvePanel) timecurvePanel.style.display = "flex";
+    if (timecurvePanel) timecurvePanel.style.display = "none";
     if (timecurveMain) {
       timecurveMain.src = "";
       timecurveMain.style.display = "none";
@@ -785,9 +785,7 @@ function showTrackView(d) {
       timecurveStyle.src = "";
       timecurveStyle.style.display = "none";
     }
-    if (timecurvePlaceholder)
-      timecurvePlaceholder.innerHTML = "<p>選擇日本鈴鹿站即可查看 TimeCurve 與風格比較圖。</p>";
-    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "flex";
+    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
   }
 }
 
