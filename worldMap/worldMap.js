@@ -734,7 +734,7 @@ function showTrackView(d) {
 
   const raceSlug = getRaceSlugForCircuit(d.circuitId);
   if (raceSlug) {
-    iframe.src = `./animation/index.html?race=${raceSlug}&embed=animation`;
+    iframe.data = `./animation/index.html?race=${raceSlug}&embed=animation`;
     iframe.style.display = "block";
     placeholder.style.display = "none";
     animationStatus.innerText = `${d.circuitName} race replay`;
@@ -745,7 +745,7 @@ function showTrackView(d) {
     }
     if (progressPlaceholder) progressPlaceholder.style.display = "none";
   } else {
-    iframe.src = "";
+    iframe.data = "";
     iframe.style.display = "none";
     placeholder.style.display = "flex";
     placeholder.innerHTML = `
@@ -767,22 +767,22 @@ function showTrackView(d) {
   if (raceSlug === "2024_japan") {
     if (timecurvePanel) timecurvePanel.style.display = "flex";
     if (timecurveMain) {
-      timecurveMain.src = "./timeCurve-f1/output/index_total.html";
+      timecurveMain.data = "./timeCurve-f1/output/index_total.html";
       timecurveMain.style.display = "block";
     }
     if (timecurveStyle) {
-      timecurveStyle.src = "./timeCurve-f1/output/driver_styles_comparison_S.html";
+      timecurveStyle.data = "./timeCurve-f1/output/driver_styles_comparison_S.html";
       timecurveStyle.style.display = "block";
     }
     if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
   } else {
     if (timecurvePanel) timecurvePanel.style.display = "flex";
     if (timecurveMain) {
-      timecurveMain.src = "";
+      timecurveMain.data = "";
       timecurveMain.style.display = "none";
     }
     if (timecurveStyle) {
-      timecurveStyle.src = "";
+      timecurveStyle.data = "";
       timecurveStyle.style.display = "none";
     }
     if (timecurvePlaceholder)
@@ -795,11 +795,11 @@ document.querySelector(".Totop").addEventListener("click", () => {
   document.querySelector(".trackContainer").style.display = "none";
   document.querySelector(".sectionWorldMap").style.display = "flex";
   const iframe = document.getElementById("animation-frame");
-  if (iframe) iframe.src = "";
+  if (iframe) iframe.data = "";
   const progressFrame = document.getElementById("progress-frame");
   if (progressFrame) progressFrame.src = "";
   const timecurveMain = document.getElementById("timecurve-main");
   const timecurveStyle = document.getElementById("timecurve-style");
-  if (timecurveMain) timecurveMain.src = "";
-  if (timecurveStyle) timecurveStyle.src = "";
+  if (timecurveMain) timecurveMain.data = "";
+  if (timecurveStyle) timecurveStyle.data = "";
 });

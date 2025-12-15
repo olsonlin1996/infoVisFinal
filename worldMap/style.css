@@ -444,7 +444,9 @@ h1 {
 }
 
 .telemetry-embed iframe,
-.timecurve-embeds iframe {
+.telemetry-embed object,
+.timecurve-embeds iframe,
+.timecurve-embeds object {
   width: 100%;
   height: 320px;
   border: none;
@@ -455,7 +457,8 @@ h1 {
   min-height: clamp(420px, 60vh, 780px);
 }
 
-.telemetry-embed iframe {
+.telemetry-embed iframe,
+.telemetry-embed object {
   height: 100%;
 }
 
@@ -465,7 +468,8 @@ h1 {
   gap: 8px;
 }
 
-.timecurve-card iframe {
+.timecurve-card iframe,
+.timecurve-card object {
   height: 280px;
 }
 
