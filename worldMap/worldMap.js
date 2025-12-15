@@ -722,16 +722,28 @@ function showTrackView(d) {
   const animationStatus = document.getElementById("animation-status");
   const iframe = document.getElementById("animation-frame");
   const placeholder = document.getElementById("animation-placeholder");
+  const progressFrame = document.getElementById("progress-frame");
+  const progressPlaceholder = document.getElementById("progress-placeholder");
+  const timecurvePanel = document.getElementById("timecurve-panel");
+  const timecurveMain = document.getElementById("timecurve-main");
+  const timecurveStyle = document.getElementById("timecurve-style");
+  const timecurvePlaceholder = document.getElementById("timecurve-placeholder");
 
   titleEl.innerText = d.circuitName;
   locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
 
   const raceSlug = getRaceSlugForCircuit(d.circuitId);
   if (raceSlug) {
-    iframe.src = `./animation/index.html?race=${raceSlug}`;
+    iframe.src = `./animation/index.html?race=${raceSlug}&embed=animation`;
     iframe.style.display = "block";
     placeholder.style.display = "none";
     animationStatus.innerText = `${d.circuitName} race replay`;
+
+    if (progressFrame) {
+      progressFrame.src = `./animation/index.html?race=${raceSlug}&embed=progress`;
+      progressFrame.style.display = "block";
+    }
+    if (progressPlaceholder) progressPlaceholder.style.display = "none";
   } else {
     iframe.src = "";
     iframe.style.display = "none";
@@ -741,6 +753,41 @@ function showTrackView(d) {
             <p class="placeholder-hint">Select another circuit to view available race replays.</p>
         `;
     animationStatus.innerText = "Animation unavailable";
+
+    if (progressFrame) {
+      progressFrame.src = "";
+      progressFrame.style.display = "none";
+    }
+    if (progressPlaceholder) {
+      progressPlaceholder.style.display = "flex";
+      progressPlaceholder.innerHTML = "<p>沒有可用的車手進度動畫。</p>";
+    }
+  }
+
+  if (raceSlug === "2024_japan") {
+    if (timecurvePanel) timecurvePanel.style.display = "flex";
+    if (timecurveMain) {
+      timecurveMain.src = "./timeCurve-f1/output/index_total.html";
+      timecurveMain.style.display = "block";
+    }
+    if (timecurveStyle) {
+      timecurveStyle.src = "./timeCurve-f1/output/driver_styles_comparison_S.html";
+      timecurveStyle.style.display = "block";
+    }
+    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+  } else {
+    if (timecurvePanel) timecurvePanel.style.display = "flex";
+    if (timecurveMain) {
+      timecurveMain.src = "";
+      timecurveMain.style.display = "none";
+    }
+    if (timecurveStyle) {
+      timecurveStyle.src = "";
+      timecurveStyle.style.display = "none";
+    }
+    if (timecurvePlaceholder)
+      timecurvePlaceholder.innerHTML = "<p>選擇日本鈴鹿站即可查看 TimeCurve 與風格比較圖。</p>";
+    if (timecurvePlaceholder) timecurvePlaceholder.style.display = "flex";
   }
 }
 
@@ -749,4 +796,10 @@ document.querySelector(".Totop").addEventListener("click", () => {
   document.querySelector(".sectionWorldMap").style.display = "flex";
   const iframe = document.getElementById("animation-frame");
   if (iframe) iframe.src = "";
+  const progressFrame = document.getElementById("progress-frame");
+  if (progressFrame) progressFrame.src = "";
+  const timecurveMain = document.getElementById("timecurve-main");
+  const timecurveStyle = document.getElementById("timecurve-style");
+  if (timecurveMain) timecurveMain.src = "";
+  if (timecurveStyle) timecurveStyle.src = "";
 });

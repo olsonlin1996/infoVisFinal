@@ -6,6 +6,11 @@
 ];
 const playbackSpeed = 4;
 
+const params = new URLSearchParams(window.location.search);
+const embedMode = params.get("embed");
+if (embedMode === "animation") document.body.classList.add("embed-animation");
+if (embedMode === "progress") document.body.classList.add("embed-progress");
+
 const races = [
   { slug: "2024_bahrain", label: "巴林" },
   { slug: "2024_saudi_arabia", label: "沙烏地阿拉伯" },

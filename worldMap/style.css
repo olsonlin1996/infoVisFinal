@@ -333,6 +333,7 @@ h1 {
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .enter-track-btn {
@@ -390,33 +391,79 @@ h1 {
     gap: 16px;
     padding: 16px 0;
     box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .analysisLeft {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    min-width: 0;
+}
+
+.telemetryCard {
     background: linear-gradient(145deg, #1d1d2b, #11111a);
     border: 1px solid #1f1f2a;
     border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.telemetry-header h3 {
+    margin: 4px 0;
+    color: #e10600;
+}
+
+.telemetry-subtitle {
+    margin: 0;
+    color: #9a9ab2;
+    font-size: 13px;
+}
+
+.telemetry-embed,
+.timecurve-embeds {
+    position: relative;
+    background: radial-gradient(circle at center, #181826 0%, #05050b 100%);
+    border: 1px solid #252536;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 220px;
+}
+
+.telemetry-embed iframe,
+.timecurve-embeds iframe {
+    width: 100%;
+    height: 320px;
+    border: none;
+    display: none;
+}
+
+.timecurve-embeds {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.timecurve-card iframe {
+    height: 280px;
+}
+
+.telemetry-placeholder {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-.timeCurve {
+    color: #9a9ab2;
     text-align: center;
-    padding: 24px;
-}
-
-.timeCurve h3 {
-    margin: 0 0 8px;
-    color: #e10600;
-    letter-spacing: 0.5px;
-}
-
-.coming-soon {
-    margin: 0;
-    color: #8a8aa1;
+    padding: 16px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.35);
 }
 
 .analysisRight {
@@ -429,6 +476,7 @@ h1 {
     display: flex;
     flex-direction: column;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    min-width: 0;
 }
 
 .animationHeader {
@@ -505,4 +553,23 @@ h1 {
 .Totop:hover {
     transform: translateY(-1px);
     box-shadow: 0 8px 24px rgba(225, 6, 0, 0.45);
+}
+
+@media (max-width: 1200px) {
+    .trackContainer {
+        padding: 16px;
+    }
+
+    .analysisContent {
+        flex-direction: column;
+    }
+
+    .analysisLeft,
+    .analysisRight {
+        width: 100%;
+    }
+
+    .animationEmbed {
+        min-height: 320px;
+    }
 }
