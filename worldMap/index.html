@@ -76,9 +76,58 @@
 
       <div class="analysisContent">
         <div class="analysisLeft">
-          <div class="timeCurve">
-            <h3>Telemetry Analysis</h3>
-            <p class="coming-soon">Coming Soon</p>
+          <div class="telemetry-card">
+            <div class="card-header">
+              <div class="analysis-label">Telemetry Analysis</div>
+              <h3 class="card-title">車手進度動畫</h3>
+              <p class="card-hint">同步觀看 20 位車手的日本站圈內進度。</p>
+              <div id="animation-status" class="animation-status">Loading...</div>
+            </div>
+            <div class="animationEmbed compact">
+              <iframe
+                id="telemetry-frame"
+                title="Race Animation"
+                allowfullscreen
+              ></iframe>
+              <div
+                id="telemetry-placeholder"
+                class="animation-placeholder"
+                role="alert"
+              >
+                <p>尚未選擇賽道，請先在地球上點選賽道。</p>
+                <p class="placeholder-hint">選取有動畫的賽道後會自動載入。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="telemetry-card timecurve-card">
+            <div class="card-header">
+              <div class="analysis-label">TimeCurve Insights</div>
+              <h3 class="card-title">鈴鹿 S 彎對比</h3>
+              <p class="card-hint">
+                以降維投影呈現 Max、Perez 與角田在 S 彎的操作差異。
+              </p>
+            </div>
+            <div class="timecurve-grid">
+              <div class="timecurve-embed">
+                <iframe
+                  id="timecurve-primary"
+                  title="S-Curve TimeCurve"
+                  loading="lazy"
+                ></iframe>
+              </div>
+              <div class="timecurve-embed">
+                <iframe
+                  id="timecurve-secondary"
+                  title="Average Style Comparison"
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+            <div id="timecurve-placeholder" class="timecurve-placeholder">
+              <p>TimeCurve 圖表目前僅提供日本站資料。</p>
+              <p class="placeholder-hint">選取鈴鹿賽道即可自動顯示。</p>
+            </div>
           </div>
         </div>
 
@@ -86,26 +135,13 @@
           <div class="animationHeader">
             <div>
               <div class="analysis-label">Race Animation</div>
-              <div id="animation-status" class="animation-status">
-                Loading...
-              </div>
+              <div class="analysis-note">右側區塊保留給其他賽道內容或補充分析。</div>
             </div>
           </div>
-          <div class="animationEmbed">
-            <iframe
-              id="animation-frame"
-              title="Race Animation"
-              allowfullscreen
-            ></iframe>
-            <div
-              id="animation-placeholder"
-              class="animation-placeholder"
-              role="alert"
-            >
-              <p>No animation data available for this track yet.</p>
-              <p class="placeholder-hint">
-                Select another circuit to view available race replays.
-              </p>
+          <div class="animationEmbed muted">
+            <div class="animation-placeholder">
+              <p>主要的車手動畫與 TimeCurve 已移至左側。</p>
+              <p class="placeholder-hint">之後可在此加入其他圖表或筆記。</p>
             </div>
           </div>
         </div>

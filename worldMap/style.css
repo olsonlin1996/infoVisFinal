@@ -386,41 +386,43 @@ h1 {
 
 .analysisContent {
     flex: 1;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
     gap: 16px;
     padding: 16px 0;
     box-sizing: border-box;
 }
 
 .analysisLeft {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.telemetry-card {
     background: linear-gradient(145deg, #1d1d2b, #11111a);
     border: 1px solid #1f1f2a;
     border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 }
 
-.timeCurve {
-    text-align: center;
-    padding: 24px;
+.card-header {
+    margin-bottom: 12px;
 }
 
-.timeCurve h3 {
-    margin: 0 0 8px;
-    color: #e10600;
-    letter-spacing: 0.5px;
+.card-title {
+    margin: 4px 0;
+    color: #fff;
 }
 
-.coming-soon {
+.card-hint {
     margin: 0;
     color: #8a8aa1;
+    font-size: 13px;
 }
 
 .analysisRight {
-    flex: 1.6;
     background: linear-gradient(145deg, #1d1d2b, #101018);
     border: 1px solid #1f1f2a;
     border-radius: 10px;
@@ -460,7 +462,16 @@ h1 {
     border: 1px solid #252536;
 }
 
-#animation-frame {
+.animationEmbed.compact {
+    min-height: 360px;
+}
+
+.animationEmbed.muted {
+    border-style: dashed;
+    min-height: 200px;
+}
+
+#animation-frame, #telemetry-frame {
     width: 100%;
     height: 100%;
     border: none;
@@ -484,6 +495,46 @@ h1 {
 .placeholder-hint {
     margin: 0;
     color: #6f6f86;
+}
+
+.timecurve-card {
+    background: linear-gradient(145deg, #161623, #0c0c14);
+}
+
+.timecurve-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 12px;
+}
+
+.timecurve-embed {
+    background: #0b0b12;
+    border: 1px solid #1f1f2a;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 320px;
+}
+
+.timecurve-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+}
+
+.timecurve-placeholder {
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #9a9ab2;
+}
+
+.analysis-note {
+    color: #888;
+    font-size: 12px;
+    margin-top: 4px;
 }
 
 .Totop {

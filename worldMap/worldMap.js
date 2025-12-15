@@ -720,33 +720,58 @@ function showTrackView(d) {
   const titleEl = document.getElementById("analysis-title");
   const locationEl = document.getElementById("analysis-location");
   const animationStatus = document.getElementById("animation-status");
-  const iframe = document.getElementById("animation-frame");
-  const placeholder = document.getElementById("animation-placeholder");
+  const telemetryFrame = document.getElementById("telemetry-frame");
+  const telemetryPlaceholder = document.getElementById(
+    "telemetry-placeholder"
+  );
+  const timecurvePrimary = document.getElementById("timecurve-primary");
+  const timecurveSecondary = document.getElementById("timecurve-secondary");
+  const timecurvePlaceholder = document.getElementById(
+    "timecurve-placeholder"
+  );
 
   titleEl.innerText = d.circuitName;
   locationEl.innerText = `${d.Location.locality}, ${d.Location.country}`;
 
   const raceSlug = getRaceSlugForCircuit(d.circuitId);
   if (raceSlug) {
-    iframe.src = `./animation/index.html?race=${raceSlug}`;
-    iframe.style.display = "block";
-    placeholder.style.display = "none";
+    telemetryFrame.src = `./animation/index.html?race=${raceSlug}`;
+    telemetryFrame.style.display = "block";
+    telemetryPlaceholder.style.display = "none";
     animationStatus.innerText = `${d.circuitName} race replay`;
   } else {
-    iframe.src = "";
-    iframe.style.display = "none";
-    placeholder.style.display = "flex";
-    placeholder.innerHTML = `
+    telemetryFrame.src = "";
+    telemetryFrame.style.display = "none";
+    telemetryPlaceholder.style.display = "flex";
+    telemetryPlaceholder.innerHTML = `
             <p>No animation data available for ${d.circuitName} yet.</p>
             <p class="placeholder-hint">Select another circuit to view available race replays.</p>
         `;
     animationStatus.innerText = "Animation unavailable";
+  }
+
+  if (d.circuitId === "suzuka") {
+    timecurvePlaceholder.style.display = "none";
+    timecurvePrimary.src = "./timeCurve-f1/output/index.html";
+    timecurveSecondary.src = "./timeCurve-f1/output/driver_styles_comparison.html";
+    timecurvePrimary.style.display = "block";
+    timecurveSecondary.style.display = "block";
+  } else {
+    timecurvePrimary.src = "";
+    timecurveSecondary.src = "";
+    timecurvePrimary.style.display = "none";
+    timecurveSecondary.style.display = "none";
+    timecurvePlaceholder.style.display = "block";
   }
 }
 
 document.querySelector(".Totop").addEventListener("click", () => {
   document.querySelector(".trackContainer").style.display = "none";
   document.querySelector(".sectionWorldMap").style.display = "flex";
-  const iframe = document.getElementById("animation-frame");
-  if (iframe) iframe.src = "";
+  const telemetryFrame = document.getElementById("telemetry-frame");
+  const timecurvePrimary = document.getElementById("timecurve-primary");
+  const timecurveSecondary = document.getElementById("timecurve-secondary");
+  if (telemetryFrame) telemetryFrame.src = "";
+  if (timecurvePrimary) timecurvePrimary.src = "";
+  if (timecurveSecondary) timecurveSecondary.src = "";
 });
