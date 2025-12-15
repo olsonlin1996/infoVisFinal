@@ -1,0 +1,57 @@
+# driver_style_races.txt
+# 使用說明：
+# 1. 每個 token 代表一場正賽，格式為：YYYYslug
+#    - 前 4 碼是年份，例如 2024
+#    - 後面的 slug 是用來搜尋分站的關鍵字（meeting_name / country / location / circuit_short_name）
+#      例如：2024japan, 2024china, 2023vegas
+# 2. token 之間可以用逗號分隔，或分行寫。
+# 3. 以 # 開頭的行會被視為註解。
+#
+# 特殊用法：
+#   YYYYall  代表該年份所有 Race（正賽），效果等同於把該年的所有分站一一列出。
+#   例如：2024all 會輸出 2024 賽季全部分站的 driver style JSON。
+#
+# 注意：
+#   若同一年同時寫了「YYYYall」與個別分站（例如 2024all, 2024japan），
+#   2024japan 這場會被處理兩次，輸出兩個不同檔名的 JSON（不會影響正確性，但可能重複）。
+#   一般建議：要嘛只寫 2024all，要嘛改成個別列出各站。
+
+# 範例一：只抓 2024 日本站與中國站
+# 2024japan,2024china
+
+# 範例二：另外再抓 2023 拉斯維加斯站
+# 2023vegas
+
+# 範例三：抓整個 2024 賽季所有分站
+# 2024all
+
+# 上面這行等價於逐一列出：
+# 2024bahrain,
+# 2024saudi_arabia,
+# 2024australia,
+# 2024japan,
+# 2024china,
+# 2024miami,
+# 2024emilia_romagna,
+# 2024monaco,
+# 2024canada,
+# 2024spain,
+# 2024austria,
+# 2024britain,
+# 2024hungary,
+# 2024belgium,
+# 2024netherlands,
+# 2024italy,
+# 2024azerbaijan,
+# 2024singapore,
+# 2024usa,
+# 2024mexico,
+# 2024brazil,
+# 2024qatar,
+# 2024las_vegas,
+# 2024abu_dhabi
+
+# ================================
+
+2024all
+# 2024japan,2024china,2023vegas

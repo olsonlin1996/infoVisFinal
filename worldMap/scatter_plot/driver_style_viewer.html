@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <title>F1 Driver Style Embedding Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Helvetica Neue", Arial, sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #111827 0,
+          #020617 55%,
+          #000 100%
+        );
+        color: #e5e7eb;
+      }
+      .page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 24px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        backdrop-filter: blur(8px);
+        background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0.85),
+          rgba(15, 23, 42, 0.4)
+        );
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .title {
+        font-size: 18px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #f9fafb;
+      }
+      .subtitle {
+        font-size: 13px;
+        color: #9ca3af;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+      }
+      .label {
+        color: #9ca3af;
+      }
+      select {
+        background: #020617;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: #e5e7eb;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 13px;
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+        position: relative;
+        padding-right: 26px;
+      }
+      .select-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+      .select-wrapper::after {
+        content: "▾";
+        position: absolute;
+        right: 9px;
+        pointer-events: none;
+        font-size: 10px;
+        color: #9ca3af;
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+        gap: 0;
+        height: calc(100vh - 64px);
+      }
+      .chart-panel {
+        position: relative;
+        padding: 18px 24px 24px 24px;
+      }
+      .chart-container {
+        width: 100%;
+        height: 100%;
+        border-radius: 24px;
+        background: radial-gradient(
+          circle at top,
+          #020617 0,
+          #020617 45%,
+          #000 100%
+        );
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(31, 41, 55, 0.8);
+        padding: 24px 24px 32px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .chart-title {
+        position: absolute;
+        top: 18px;
+        left: 32px;
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #6b7280;
+        pointer-events: none;
+      }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+      .axis path,
+      .axis line {
+        stroke: rgba(55, 65, 81, 0.8);
+      }
+      .axis text {
+        fill: #9ca3af;
+        font-size: 11px;
+      }
+      .grid line {
+        stroke: rgba(31, 41, 55, 0.7);
+        stroke-dasharray: 2 4;
+      }
+      .grid path {
+        display: none;
+      }
+      .axis-label {
+        fill: #6b7280;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .point {
+        fill-opacity: 0.85;
+        stroke-width: 0.9;
+        transition: r 120ms ease-out, fill-opacity 120ms ease-out,
+          stroke-opacity 120ms ease-out;
+      }
+      .point.focus-lap {
+        stroke: #f9fafb;
+        stroke-width: 1.6;
+        r: 5.5;
+      }
+      .point.dimmed {
+        fill-opacity: 0.05;
+        stroke-opacity: 0.05;
+      }
+      .point.highlighted {
+        fill-opacity: 1;
+        stroke-opacity: 1;
+        r: 5;
+      }
+
+      .sidebar {
+        border-left: 1px solid rgba(30, 64, 175, 0.4);
+        background: radial-gradient(
+          circle at top left,
+          rgba(15, 23, 42, 0.95),
+          #020617
+        );
+        padding: 18px 18px 24px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .sidebar-section {
+        padding: 12px 12px;
+        border-radius: 18px;
+        background: linear-gradient(
+          145deg,
+          rgba(15, 23, 42, 0.95),
+          rgba(17, 24, 39, 1)
+        );
+        border: 1px solid rgba(31, 41, 55, 0.9);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      }
+      .sidebar-section + .sidebar-section {
+        margin-top: 2px;
+      }
+      .section-title {
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 8px;
+      }
+
+      .legend {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        max-height: 40vh;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 6px 8px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 120ms ease-out, opacity 120ms ease-out,
+          transform 120ms ease-out;
+      }
+      .legend-item:hover {
+        background: rgba(31, 41, 55, 0.8);
+        transform: translateX(1px);
+      }
+      .legend-item.disabled {
+        opacity: 0.25;
+      }
+      .legend-label-block {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+      .legend-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(15, 23, 42, 0.8);
+        flex-shrink: 0;
+      }
+      .legend-name {
+        font-size: 13px;
+        color: #e5e7eb;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 160px;
+      }
+      .legend-team {
+        font-size: 11px;
+        color: #6b7280;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 120px;
+      }
+
+      .info-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+      .info-row strong {
+        color: #e5e7eb;
+        font-weight: 500;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 3px 8px;
+        font-size: 11px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(30, 64, 175, 0.7);
+        color: #c7d2fe;
+      }
+      .pill-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: #22d3ee;
+      }
+
+      .tooltip {
+        position: fixed;
+        pointer-events: none;
+        background: rgba(15, 23, 42, 0.98);
+        border-radius: 12px;
+        padding: 8px 10px;
+        font-size: 11px;
+        color: #e5e7eb;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        transition: opacity 80ms ease-out, transform 80ms ease-out;
+        transform: translateY(4px);
+        z-index: 9999;
+        max-width: 260px;
+        line-height: 1.4;
+      }
+      .tooltip strong {
+        font-weight: 600;
+      }
+      .tooltip-header {
+        margin-bottom: 4px;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .tooltip-header span {
+        white-space: nowrap;
+      }
+      .tooltip .stat-row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .tooltip-key {
+        color: #9ca3af;
+      }
+      .tooltip-value {
+        color: #e5e7eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <div class="title-block">
+          <div class="title">F1 DRIVER STYLE MAP</div>
+          <div class="subtitle" id="race-subtitle">Loading race...</div>
+        </div>
+        <div class="controls">
+          <span class="label">Session</span>
+          <div class="select-wrapper">
+            <!-- options 由 JS 動態產生 -->
+            <select id="race-select"></select>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <main class="chart-panel">
+          <div class="chart-container">
+            <div class="chart-title">DRIVER STYLE EMBEDDINGS (PC1 VS PC2)</div>
+            <svg id="style-chart"></svg>
+          </div>
+        </main>
+
+        <aside class="sidebar">
+          <section class="sidebar-section">
+            <div class="section-title">DRIVERS</div>
+            <div id="legend" class="legend"></div>
+          </section>
+          <section class="sidebar-section">
+            <div class="section-title">SELECTION</div>
+            <div class="info-row" id="selection-info">
+              <div class="pill">
+                <span class="pill-dot"></span>
+                <span>No lap selected</span>
+              </div>
+              <div style="font-size: 11px; color: #9ca3af">
+                將滑鼠移到點上可查看該圈詳細數值，點擊圖例可隱藏/顯示特定車手。
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </div>
+
+    <!-- tooltip 放在 body 下方，避免被任何容器裁掉 -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+      // === 可配置的場次列表 ===
+      // 之後要增加其它 JSON，直接在這個陣列加一筆即可。
+      const RACES = [
+        // 2024 season（大致依賽曆順序排）
+        {
+          file: "driver_style_embedding_2024sakhir.json",
+          label: "2024 Bahrain Grand Prix (Sakhir)",
+          short: "2024 Bahrain GP",
+        },
+        {
+          file: "driver_style_embedding_2024jeddah.json",
+          label: "2024 Saudi Arabian Grand Prix (Jeddah)",
+          short: "2024 Saudi GP",
+        },
+        {
+          file: "driver_style_embedding_2024melbourne.json",
+          label: "2024 Australian Grand Prix (Melbourne)",
+          short: "2024 Australia GP",
+        },
+        {
+          file: "driver_style_embedding_2024japan.json",
+          label: "2024 Japanese Grand Prix (Japan slug)",
+          short: "2024 Japan GP",
+        },
+        {
+          file: "driver_style_embedding_2024suzuka.json",
+          label: "2024 Japanese Grand Prix (Suzuka slug)",
+          short: "2024 Japan GP (alt)",
+        },
+        {
+          file: "driver_style_embedding_2024china.json",
+          label: "2024 Chinese Grand Prix (China slug)",
+          short: "2024 China GP",
+        },
+        {
+          file: "driver_style_embedding_2024shanghai.json",
+          label: "2024 Chinese Grand Prix (Shanghai slug)",
+          short: "2024 China GP (alt)",
+        },
+        {
+          file: "driver_style_embedding_2024miami.json",
+          label: "2024 Miami Grand Prix",
+          short: "2024 Miami GP",
+        },
+        {
+          file: "driver_style_embedding_2024imola.json",
+          label: "2024 Emilia Romagna Grand Prix (Imola)",
+          short: "2024 Imola GP",
+        },
+        {
+          file: "driver_style_embedding_2024monaco.json",
+          label: "2024 Monaco Grand Prix",
+          short: "2024 Monaco GP",
+        },
+        {
+          file: "driver_style_embedding_2024montral.json",
+          label: "2024 Canadian Grand Prix (Montreal)",
+          short: "2024 Canada GP",
+        },
+        {
+          file: "driver_style_embedding_2024barcelona.json",
+          label: "2024 Spanish Grand Prix (Barcelona)",
+          short: "2024 Spain GP",
+        },
+        {
+          file: "driver_style_embedding_2024spielberg.json",
+          label: "2024 Austrian Grand Prix (Spielberg)",
+          short: "2024 Austria GP",
+        },
+        {
+          file: "driver_style_embedding_2024silverstone.json",
+          label: "2024 British Grand Prix (Silverstone)",
+          short: "2024 Britain GP",
+        },
+        {
+          file: "driver_style_embedding_2024budapest.json",
+          label: "2024 Hungarian Grand Prix (Budapest)",
+          short: "2024 Hungary GP",
+        },
+        {
+          file: "driver_style_embedding_2024spafrancorchamps.json",
+          label: "2024 Belgian Grand Prix (Spa-Francorchamps)",
+          short: "2024 Belgium GP",
+        },
+        {
+          file: "driver_style_embedding_2024zandvoort.json",
+          label: "2024 Dutch Grand Prix (Zandvoort)",
+          short: "2024 Dutch GP",
+        },
+        {
+          file: "driver_style_embedding_2024monza.json",
+          label: "2024 Italian Grand Prix (Monza)",
+          short: "2024 Italy GP",
+        },
+        {
+          file: "driver_style_embedding_2024baku.json",
+          label: "2024 Azerbaijan Grand Prix (Baku)",
+          short: "2024 Azerbaijan GP",
+        },
+        {
+          file: "driver_style_embedding_2024marinabay.json",
+          label: "2024 Singapore Grand Prix (Marina Bay)",
+          short: "2024 Singapore GP",
+        },
+        {
+          file: "driver_style_embedding_2024austin.json",
+          label: "2024 United States Grand Prix (Austin)",
+          short: "2024 US GP (Austin)",
+        },
+        {
+          file: "driver_style_embedding_2024mexicocity.json",
+          label: "2024 Mexico City Grand Prix",
+          short: "2024 Mexico GP",
+        },
+        {
+          file: "driver_style_embedding_2024sopaulo.json",
+          label: "2024 São Paulo Grand Prix",
+          short: "2024 São Paulo GP",
+        },
+        {
+          file: "driver_style_embedding_2024lasvegas.json",
+          label: "2024 Las Vegas Grand Prix",
+          short: "2024 Vegas GP",
+        },
+        {
+          file: "driver_style_embedding_2024lusail.json",
+          label: "2024 Qatar Grand Prix (Lusail)",
+          short: "2024 Qatar GP",
+        },
+        {
+          file: "driver_style_embedding_2024yasisland.json",
+          label: "2024 Abu Dhabi Grand Prix (Yas Island)",
+          short: "2024 Abu Dhabi GP",
+        },
+
+        // 2023 sample
+        {
+          file: "driver_style_embedding_2023vegas.json",
+          label: "2023 Las Vegas Grand Prix",
+          short: "2023 Vegas GP",
+        },
+      ];
+
+      const raceSelect = document.getElementById("race-select");
+      RACES.forEach((r, idx) => {
+        const opt = document.createElement("option");
+        opt.value = r.file;
+        opt.textContent = r.short || r.label;
+        opt.dataset.label = r.label;
+        if (idx === 0) opt.selected = true;
+        raceSelect.appendChild(opt);
+      });
+
+      // === 基本圖表設定 ===
+      const svg = d3.select("#style-chart");
+      const margin = { top: 36, right: 24, bottom: 46, left: 56 };
+      let width = 900;
+      let height = 600;
+
+      function resizeSvg() {
+        const container = svg.node().parentNode.getBoundingClientRect();
+        width = container.width;
+        height = container.height;
+        svg.attr("viewBox", `0 0 ${width} ${height}`);
+      }
+      resizeSvg();
+      window.addEventListener("resize", () => {
+        resizeSvg();
+      });
+
+      const plotGroup = svg.append("g").attr("class", "plot");
+      const xAxisGroup = svg.append("g").attr("class", "axis x-axis");
+      const yAxisGroup = svg.append("g").attr("class", "axis y-axis");
+      const xGridGroup = svg.append("g").attr("class", "grid x-grid");
+      const yGridGroup = svg.append("g").attr("class", "grid y-grid");
+      const pointsGroup = plotGroup.append("g").attr("class", "points");
+
+      // 軸標籤
+      const xLabel = svg.append("text").attr("class", "axis-label");
+      const yLabel = svg.append("text").attr("class", "axis-label");
+
+      const tooltip = d3.select("#tooltip");
+      const legendContainer = d3.select("#legend");
+      const selectionInfo = d3.select("#selection-info");
+      const raceSubtitle = d3.select("#race-subtitle");
+
+      const xScale = d3.scaleLinear();
+      const yScale = d3.scaleLinear();
+
+      // 高對比色盤
+      const colorPalette = [
+        "#f97316",
+        "#22c55e",
+        "#3b82f6",
+        "#e11d48",
+        "#a855f7",
+        "#14b8a6",
+        "#facc15",
+        "#f97373",
+        "#0ea5e9",
+        "#84cc16",
+        "#fb7185",
+        "#8b5cf6",
+        "#06b6d4",
+        "#fde047",
+        "#4ade80",
+        "#38bdf8",
+        "#a3e635",
+        "#fbbf24",
+        "#f97373",
+        "#22c55e",
+      ];
+      const driverColorMap = new Map();
+      let paletteIndex = 0;
+
+      function colorForDriver(driverLabel) {
+        if (!driverColorMap.has(driverLabel)) {
+          const color = colorPalette[paletteIndex % colorPalette.length];
+          driverColorMap.set(driverLabel, color);
+          paletteIndex += 1;
+        }
+        return driverColorMap.get(driverLabel);
+      }
+
+      let driverMetaById = new Map();
+      let driverVisibility = new Map();
+
+      function updateLegend(drivers) {
+        driverMetaById = new Map(drivers.map((d) => [d.id, d]));
+        drivers.forEach((d) => {
+          if (!driverVisibility.has(d.id)) driverVisibility.set(d.id, true);
+        });
+
+        const items = legendContainer
+          .selectAll(".legend-item")
+          .data(drivers, (d) => d.id);
+
+        items.exit().remove();
+
+        const enterItems = items
+          .enter()
+          .append("div")
+          .attr("class", "legend-item")
+          .on("click", (event, d) => {
+            const current = driverVisibility.get(d.id);
+            driverVisibility.set(d.id, !current);
+            d3.select(event.currentTarget).classed("disabled", current);
+            refreshPointVisibility();
+          });
+
+        const itemMerge = enterItems.merge(items);
+
+        const labelBlock = itemMerge
+          .selectAll(".legend-label-block")
+          .data((d) => [d]);
+
+        labelBlock
+          .enter()
+          .append("div")
+          .attr("class", "legend-label-block")
+          .html(
+            (d) => `
+        <div class="legend-swatch" style="background:${colorForDriver(
+          d.label
+        )}"></div>
+        <div style="display:flex;flex-direction:column;gap:1px;min-width:0;">
+          <div class="legend-name">${d.label}</div>
+          <div class="legend-team">${d.team_name || ""}</div>
+        </div>
+      `
+          );
+
+        itemMerge.classed("disabled", (d) => !driverVisibility.get(d.id));
+      }
+
+      function refreshPointVisibility() {
+        pointsGroup
+          .selectAll("circle.point")
+          .attr("opacity", (d) =>
+            driverVisibility.get(d.driver) ? 0.9 : 0.06
+          );
+      }
+
+      function formatPercent(v) {
+        return (v * 100).toFixed(1) + "%";
+      }
+
+      function renderRace(data, raceLabel) {
+        const laps = data.laps || [];
+        if (!laps.length) return;
+
+        const xExtent = d3.extent(laps, (d) => d.embed_x);
+        const yExtent = d3.extent(laps, (d) => d.embed_y);
+
+        const padding = 0.1;
+        xScale
+          .domain([
+            xExtent[0] - Math.abs(xExtent[0]) * padding,
+            xExtent[1] + Math.abs(xExtent[1]) * padding,
+          ])
+          .range([margin.left, width - margin.right]);
+
+        yScale
+          .domain([
+            yExtent[0] - Math.abs(yExtent[0]) * padding,
+            yExtent[1] + Math.abs(yExtent[1]) * padding,
+          ])
+          .range([height - margin.bottom, margin.top]);
+
+        plotGroup.attr("transform", "translate(0,0)");
+
+        const xAxis = d3.axisBottom(xScale).ticks(8);
+        const yAxis = d3.axisLeft(yScale).ticks(8);
+
+        xAxisGroup
+          .attr("transform", `translate(0, ${height - margin.bottom})`)
+          .call(xAxis);
+        yAxisGroup
+          .attr("transform", `translate(${margin.left}, 0)`)
+          .call(yAxis);
+
+        // grid
+        xGridGroup
+          .attr("transform", `translate(0, ${height - margin.bottom})`)
+          .call(
+            d3
+              .axisBottom(xScale)
+              .ticks(8)
+              .tickSize(-(height - margin.top - margin.bottom))
+              .tickFormat("")
+          );
+        yGridGroup.attr("transform", `translate(${margin.left}, 0)`).call(
+          d3
+            .axisLeft(yScale)
+            .ticks(8)
+            .tickSize(-(width - margin.left - margin.right))
+            .tickFormat("")
+        );
+
+        // 軸標籤文字：PC1 / PC2 意義
+        xLabel
+          .attr("x", width / 2)
+          .attr("y", height - 10)
+          .attr("text-anchor", "middle")
+          .text("PC1 · 油門/煞車（→ 越右越激進）");
+
+        yLabel
+          .attr("x", margin.left + 4)
+          .attr("y", margin.top - 12)
+          .attr("text-anchor", "start")
+          .text("PC2 · 節奏/檔位（↑ 越上越順暢）");
+
+        // points
+        const points = pointsGroup
+          .selectAll("circle.point")
+          .data(laps, (d) => d.driver + "-" + d.lap_number);
+
+        points.exit().remove();
+
+        const enterPoints = points
+          .enter()
+          .append("circle")
+          .attr("class", "point")
+          .attr("r", (d) => (d.is_focus ? 4.8 : 3.3))
+          .attr("stroke", (d) => {
+            const driver = driverMetaById.get(d.driver);
+            const baseColor = colorForDriver(driver?.label || "");
+            return d3.color(baseColor)?.darker(0.8) || "#020617";
+          })
+          .on("mouseover", (event, d) => {
+            const driver = driverMetaById.get(d.driver);
+            const color = colorForDriver(driver?.label || "");
+            const mx = event.pageX;
+            const my = event.pageY;
+
+            tooltip
+              .style("left", `${mx + 14}px`)
+              .style("top", `${my + 10}px`)
+              .style("border-color", d3.color(color)?.brighter(0.2))
+              .style("opacity", 1)
+              .style("transform", "translateY(0)");
+
+            tooltip.html(`
+          <div class="tooltip-header">
+            <span><strong>${driver?.label || "Unknown"}</strong></span>
+            <span style="color:#9ca3af;">Lap ${d.lap_number} · ${d.phase}</span>
+          </div>
+          <div class="stat-row">
+            <span class="tooltip-key">Avg throttle</span>
+            <span class="tooltip-value">${formatPercent(d.avg_throttle)}</span>
+          </div>
+          <div class="stat-row">
+            <span class="tooltip-key">Full throttle</span>
+            <span class="tooltip-value">${formatPercent(
+              d.full_throttle_ratio
+            )}</span>
+          </div>
+          <div class="stat-row">
+            <span class="tooltip-key">Brake ratio</span>
+            <span class="tooltip-value">${formatPercent(d.brake_ratio)}</span>
+          </div>
+          <div class="stat-row">
+            <span class="tooltip-key">Avg gear</span>
+            <span class="tooltip-value">${d.avg_gear.toFixed(2)} (changes: ${
+              d.gear_changes
+            })</span>
+          </div>
+        `);
+
+            // highlight same driver
+            pointsGroup
+              .selectAll("circle.point")
+              .classed("highlighted", (p) => p.driver === d.driver)
+              .classed("dimmed", (p) => p.driver !== d.driver);
+
+            const driverName = driver?.label || "Unknown";
+            selectionInfo.html(`
+          <div class="pill">
+            <span class="pill-dot" style="background:${color};"></span>
+            <span>${driverName}</span>
+          </div>
+          <div style="font-size:11px;color:#9ca3af;">
+            Lap <strong>${d.lap_number}</strong> · Phase <strong>${
+              d.phase
+            }</strong><br/>
+            Avg throttle <strong>${formatPercent(
+              d.avg_throttle
+            )}</strong> ｜ Full throttle <strong>${formatPercent(
+              d.full_throttle_ratio
+            )}</strong><br/>
+            Brake ratio <strong>${formatPercent(
+              d.brake_ratio
+            )}</strong> ｜ Avg gear <strong>${d.avg_gear.toFixed(
+              2
+            )}</strong> · Changes <strong>${d.gear_changes}</strong>
+          </div>
+        `);
+          })
+          .on("mouseout", () => {
+            tooltip.style("opacity", 0).style("transform", "translateY(4px)");
+            pointsGroup
+              .selectAll("circle.point")
+              .classed("highlighted", false)
+              .classed("dimmed", false);
+          });
+
+        const merged = enterPoints.merge(points);
+
+        merged
+          .attr("cx", (d) => xScale(d.embed_x))
+          .attr("cy", (d) => yScale(d.embed_y))
+          .attr("fill", (d) => {
+            const driver = driverMetaById.get(d.driver);
+            return colorForDriver(driver?.label || "");
+          })
+          .attr("r", (d) => (d.is_focus ? 4.8 : 3.3))
+          .classed("focus-lap", (d) => !!d.is_focus);
+
+        refreshPointVisibility();
+
+        raceSubtitle.text(
+          `${raceLabel} · Laps ${data.min_lap}–${data.max_lap}`
+        );
+      }
+
+      async function loadRaceFromSelect() {
+        const option = raceSelect.options[raceSelect.selectedIndex];
+        const url = option.value;
+        const label = option.dataset.label || option.textContent;
+
+        try {
+          const resp = await fetch(url);
+          const json = await resp.json();
+
+          updateLegend(json.drivers || []);
+          renderRace(json, label);
+        } catch (err) {
+          console.error("Failed to load race JSON:", err);
+          raceSubtitle.text("Failed to load session data");
+        }
+      }
+
+      raceSelect.addEventListener("change", loadRaceFromSelect);
+
+      // 初始載入第一個場次
+      loadRaceFromSelect();
+    </script>
+  </body>
+</html>

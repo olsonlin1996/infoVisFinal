@@ -1,0 +1,462 @@
+2025-12-15 11:56:32 [INFO] __main__ - ===== Driver Style Map logging started for race_id=2024lusail =====
+2025-12-15 11:56:32 [INFO] __main__ - log file: log/driver_style_2024lusail.log
+2025-12-15 11:56:32 [INFO] __main__ - === Start processing 2024lusail ===
+2025-12-15 11:56:32 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/meetings params={'year': 2024}
+2025-12-15 11:56:32 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/sessions params={'meeting_key': 1251}
+2025-12-15 11:56:33 [INFO] __main__ - [find_race_session] year=2024 slug=lusail -> session_key=9655, meeting_name=Qatar Grand Prix
+2025-12-15 11:56:33 [INFO] __main__ - [main] race_id=2024lusail -> session_key=9655, meeting_name=Qatar Grand Prix
+2025-12-15 11:56:33 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/session_result params={'session_key': 9655}
+2025-12-15 11:56:33 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/drivers params={'session_key': 9655}
+2025-12-15 11:56:33 [INFO] __main__ - [select_race_drivers] session_key=9655 winner=1 teammate=11 last_finisher=23
+2025-12-15 11:56:33 [INFO] __main__ - [build_driver_style_embedding_json] start session_key=9655, drivers=[1, 11, 23]
+2025-12-15 11:56:33 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/race_control params={'session_key': 9655}
+2025-12-15 11:56:34 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/sessions params={'session_key': 9655}
+2025-12-15 11:56:34 [INFO] __main__ - [fetch_session_start] session_key=9655, date_start=2024-12-01 16:00:00+00:00
+2025-12-15 11:56:34 [INFO] __main__ - [fetch_race_start_time] use first GREEN as race_start: 2024-12-01 15:20:01+00:00
+2025-12-15 11:56:34 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/laps params={'session_key': 9655, 'driver_number': 1}
+2025-12-15 11:56:35 [INFO] __main__ - [fetch_laps] fill lap 1 date_start with race_start=2024-12-01 15:20:01+00:00
+2025-12-15 11:56:35 [INFO] __main__ - [fetch_laps] driver=1, laps: min=1, max=57, count=57
+2025-12-15 11:56:35 [DEBUG] __main__ - [fetch_laps] head:
+   meeting_key  session_key  ...  st_speed  lap_duration_s
+0         1251         9655  ...     237.0        2723.818
+1         1251         9655  ...     182.0         141.269
+2         1251         9655  ...     206.0         137.425
+3         1251         9655  ...     165.0         153.065
+4         1251         9655  ...     291.0          86.852
+
+[5 rows x 17 columns]
+2025-12-15 11:56:35 [INFO] __main__ - [build_driver_style_embedding_json] ref_driver=1, min_lap=1, max_lap=57
+2025-12-15 11:56:35 [INFO] __main__ - [build_driver_style_embedding_json] phase_split plan =
+2025-12-15 11:56:35 [INFO] __main__ -   opening: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+2025-12-15 11:56:35 [INFO] __main__ -   middle : [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38]
+2025-12-15 11:56:35 [INFO] __main__ -   ending : [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
+2025-12-15 11:56:35 [INFO] __main__ - [build_driver_style_embedding_json] compute features for driver=1
+2025-12-15 11:56:35 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/laps params={'session_key': 9655, 'driver_number': 1}
+2025-12-15 11:56:36 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/sessions params={'session_key': 9655}
+2025-12-15 11:56:36 [INFO] __main__ - [fetch_session_start] session_key=9655, date_start=2024-12-01 16:00:00+00:00
+2025-12-15 11:56:36 [INFO] __main__ - [fetch_race_start_time] use first GREEN as race_start: 2024-12-01 15:20:01+00:00
+2025-12-15 11:56:36 [INFO] __main__ - [fetch_laps] fill lap 1 date_start with race_start=2024-12-01 15:20:01+00:00
+2025-12-15 11:56:36 [INFO] __main__ - [fetch_laps] driver=1, laps: min=1, max=57, count=57
+2025-12-15 11:56:36 [DEBUG] __main__ - [fetch_laps] head:
+   meeting_key  session_key  ...  st_speed  lap_duration_s
+0         1251         9655  ...     237.0        2723.818
+1         1251         9655  ...     182.0         141.269
+2         1251         9655  ...     206.0         137.425
+3         1251         9655  ...     165.0         153.065
+4         1251         9655  ...     291.0          86.852
+
+[5 rows x 17 columns]
+2025-12-15 11:56:36 [DEBUG] __main__ - [build_lap_status_mapping] status_by_lap={1: 'SC;YELLOW', 2: 'GREEN', 3: 'GREEN', 4: 'SC', 5: 'YELLOW', 6: 'GREEN', 7: 'GREEN', 8: 'GREEN', 9: 'GREEN', 10: 'GREEN', 11: 'GREEN', 12: 'GREEN', 13: 'GREEN', 14: 'GREEN', 15: 'GREEN', 16: 'GREEN', 17: 'GREEN', 18: 'GREEN', 19: 'GREEN', 20: 'GREEN', 21: 'GREEN', 22: 'GREEN', 23: 'GREEN', 24: 'GREEN', 25: 'GREEN', 26: 'GREEN', 27: 'GREEN', 28: 'GREEN', 29: 'GREEN', 30: 'YELLOW', 31: 'GREEN', 32: 'GREEN', 33: 'GREEN', 34: 'GREEN', 35: 'SC', 36: 'SC', 37: 'GREEN', 38: 'SC', 39: 'SC', 40: 'VSC;YELLOW', 41: 'YELLOW', 42: 'SC;YELLOW', 43: 'GREEN', 44: 'YELLOW', 45: 'GREEN', 46: 'GREEN', 47: 'GREEN', 48: 'GREEN', 49: 'GREEN', 50: 'GREEN', 51: 'GREEN', 52: 'GREEN', 53: 'GREEN', 54: 'GREEN', 55: 'GREEN', 56: 'SC', 57: 'SC;RED_FLAG;CHEQUERED'}
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1, typical_duration_s=84.832
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=1 DROP (SC_LAP), status=SC;YELLOW, duration=2723.8s
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=2 DROP (LONG_LAP_141.3s), status=GREEN, duration=141.3s
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=3 DROP (LONG_LAP_137.4s), status=GREEN, duration=137.4s
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=4 DROP (SC_LAP), status=SC, duration=153.1s
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=5 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=86.9s
+2025-12-15 11:56:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=6 KEEP, status=GREEN, duration=86.4s
+2025-12-15 11:56:36 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:14:03.429000+00:00', 'date<': '2024-12-01T16:15:29.848000+00:00'}
+2025-12-15 11:56:37 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=6, car_data rows=320
+2025-12-15 11:56:37 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=7 KEEP, status=GREEN, duration=86.4s
+2025-12-15 11:56:37 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:15:29.848000+00:00', 'date<': '2024-12-01T16:16:56.242000+00:00'}
+2025-12-15 11:56:38 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=7, car_data rows=323
+2025-12-15 11:56:38 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=8 KEEP, status=GREEN, duration=86.3s
+2025-12-15 11:56:38 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:16:56.242000+00:00', 'date<': '2024-12-01T16:18:22.516000+00:00'}
+2025-12-15 11:56:39 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=8, car_data rows=329
+2025-12-15 11:56:39 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=9 KEEP, status=GREEN, duration=86.2s
+2025-12-15 11:56:39 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:18:22.516000+00:00', 'date<': '2024-12-01T16:19:48.725000+00:00'}
+2025-12-15 11:56:40 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=9, car_data rows=326
+2025-12-15 11:56:40 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=10 KEEP, status=GREEN, duration=86.0s
+2025-12-15 11:56:40 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:19:48.725000+00:00', 'date<': '2024-12-01T16:21:14.719000+00:00'}
+2025-12-15 11:56:40 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=10, car_data rows=325
+2025-12-15 11:56:40 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=11 KEEP, status=GREEN, duration=85.7s
+2025-12-15 11:56:40 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:21:14.719000+00:00', 'date<': '2024-12-01T16:22:40.434000+00:00'}
+2025-12-15 11:56:41 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=11, car_data rows=333
+2025-12-15 11:56:41 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=12 KEEP, status=GREEN, duration=86.0s
+2025-12-15 11:56:41 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:22:40.434000+00:00', 'date<': '2024-12-01T16:24:06.423000+00:00'}
+2025-12-15 11:56:42 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=12, car_data rows=330
+2025-12-15 11:56:42 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=13 KEEP, status=GREEN, duration=85.7s
+2025-12-15 11:56:42 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:24:06.423000+00:00', 'date<': '2024-12-01T16:25:32.168000+00:00'}
+2025-12-15 11:56:43 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=13, car_data rows=324
+2025-12-15 11:56:43 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=14 KEEP, status=GREEN, duration=85.8s
+2025-12-15 11:56:43 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:25:32.168000+00:00', 'date<': '2024-12-01T16:26:57.989000+00:00'}
+2025-12-15 11:56:43 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=14, car_data rows=318
+2025-12-15 11:56:43 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=15 KEEP, status=GREEN, duration=85.7s
+2025-12-15 11:56:43 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:26:57.989000+00:00', 'date<': '2024-12-01T16:28:23.697000+00:00'}
+2025-12-15 11:56:44 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=15, car_data rows=320
+2025-12-15 11:56:44 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=16 KEEP, status=GREEN, duration=85.6s
+2025-12-15 11:56:44 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:28:23.697000+00:00', 'date<': '2024-12-01T16:29:49.306000+00:00'}
+2025-12-15 11:56:45 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=16, car_data rows=324
+2025-12-15 11:56:45 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=17 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:56:45 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:29:49.306000+00:00', 'date<': '2024-12-01T16:31:14.811000+00:00'}
+2025-12-15 11:56:45 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=17, car_data rows=318
+2025-12-15 11:56:45 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=18 KEEP, status=GREEN, duration=85.1s
+2025-12-15 11:56:45 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:31:14.811000+00:00', 'date<': '2024-12-01T16:32:39.951000+00:00'}
+2025-12-15 11:56:46 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=18, car_data rows=324
+2025-12-15 11:56:46 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=19 KEEP, status=GREEN, duration=85.2s
+2025-12-15 11:56:46 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:32:39.951000+00:00', 'date<': '2024-12-01T16:34:05.171000+00:00'}
+2025-12-15 11:56:46 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=19, car_data rows=329
+2025-12-15 11:56:46 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=20 KEEP, status=GREEN, duration=84.9s
+2025-12-15 11:56:46 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:34:05.171000+00:00', 'date<': '2024-12-01T16:35:30.111000+00:00'}
+2025-12-15 11:56:47 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=20, car_data rows=317
+2025-12-15 11:56:47 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=21 KEEP, status=GREEN, duration=85.0s
+2025-12-15 11:56:47 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:35:30.111000+00:00', 'date<': '2024-12-01T16:36:55.118000+00:00'}
+2025-12-15 11:56:48 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=21, car_data rows=329
+2025-12-15 11:56:48 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=22 KEEP, status=GREEN, duration=84.9s
+2025-12-15 11:56:48 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:36:55.118000+00:00', 'date<': '2024-12-01T16:38:19.970000+00:00'}
+2025-12-15 11:56:49 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=22, car_data rows=325
+2025-12-15 11:56:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=23 KEEP, status=GREEN, duration=84.9s
+2025-12-15 11:56:49 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:38:19.970000+00:00', 'date<': '2024-12-01T16:39:44.828000+00:00'}
+2025-12-15 11:56:49 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=23, car_data rows=334
+2025-12-15 11:56:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=24 KEEP, status=GREEN, duration=84.8s
+2025-12-15 11:56:49 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:39:44.828000+00:00', 'date<': '2024-12-01T16:41:09.601000+00:00'}
+2025-12-15 11:56:50 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=24, car_data rows=329
+2025-12-15 11:56:50 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=25 KEEP, status=GREEN, duration=84.8s
+2025-12-15 11:56:50 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:41:09.601000+00:00', 'date<': '2024-12-01T16:42:34.413000+00:00'}
+2025-12-15 11:56:51 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=25, car_data rows=321
+2025-12-15 11:56:51 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=26 KEEP, status=GREEN, duration=84.7s
+2025-12-15 11:56:51 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:42:34.413000+00:00', 'date<': '2024-12-01T16:43:59.069000+00:00'}
+2025-12-15 11:56:51 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=26, car_data rows=328
+2025-12-15 11:56:51 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=27 KEEP, status=GREEN, duration=84.7s
+2025-12-15 11:56:51 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:43:59.069000+00:00', 'date<': '2024-12-01T16:45:23.808000+00:00'}
+2025-12-15 11:56:52 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=27, car_data rows=327
+2025-12-15 11:56:52 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=28 KEEP, status=GREEN, duration=84.7s
+2025-12-15 11:56:52 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:45:23.808000+00:00', 'date<': '2024-12-01T16:46:48.501000+00:00'}
+2025-12-15 11:56:52 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=28, car_data rows=320
+2025-12-15 11:56:52 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=29 KEEP, status=GREEN, duration=84.9s
+2025-12-15 11:56:52 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:46:48.501000+00:00', 'date<': '2024-12-01T16:48:13.445000+00:00'}
+2025-12-15 11:56:53 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=29, car_data rows=323
+2025-12-15 11:56:53 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=30 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=85.1s
+2025-12-15 11:56:53 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=31 KEEP, status=GREEN, duration=84.5s
+2025-12-15 11:56:53 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:49:38.560000+00:00', 'date<': '2024-12-01T16:51:03.043000+00:00'}
+2025-12-15 11:56:54 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=31, car_data rows=324
+2025-12-15 11:56:54 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=32 KEEP, status=GREEN, duration=84.3s
+2025-12-15 11:56:54 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:51:03.043000+00:00', 'date<': '2024-12-01T16:52:27.307000+00:00'}
+2025-12-15 11:56:54 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=32, car_data rows=330
+2025-12-15 11:56:54 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=33 KEEP, status=GREEN, duration=84.5s
+2025-12-15 11:56:54 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:52:27.307000+00:00', 'date<': '2024-12-01T16:53:51.781000+00:00'}
+2025-12-15 11:56:55 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=33, car_data rows=314
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=34 KEEP, status=GREEN, duration=84.3s
+2025-12-15 11:56:55 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T16:53:51.781000+00:00', 'date<': '2024-12-01T16:55:16.106000+00:00'}
+2025-12-15 11:56:55 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=34, car_data rows=322
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=35 DROP (SC_LAP), status=SC, duration=92.4s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=36 DROP (SC_LAP), status=SC, duration=169.2s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=37 DROP (LONG_LAP_168.5s), status=GREEN, duration=168.5s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=38 DROP (SC_LAP), status=SC, duration=151.2s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=39 DROP (SC_LAP), status=SC, duration=146.1s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=40 DROP (VSC_LAP), status=VSC;YELLOW, duration=99.5s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=41 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=136.0s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=42 DROP (SC_LAP), status=SC;YELLOW, duration=149.0s
+2025-12-15 11:56:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=43 KEEP, status=GREEN, duration=84.5s
+2025-12-15 11:56:55 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:13:48.122000+00:00', 'date<': '2024-12-01T17:15:12.595000+00:00'}
+2025-12-15 11:56:56 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=43, car_data rows=303
+2025-12-15 11:56:56 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=44 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=83.5s
+2025-12-15 11:56:56 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=45 KEEP, status=GREEN, duration=83.5s
+2025-12-15 11:56:56 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:16:36.119000+00:00', 'date<': '2024-12-01T17:17:59.637000+00:00'}
+2025-12-15 11:56:57 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=45, car_data rows=309
+2025-12-15 11:56:57 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=46 KEEP, status=GREEN, duration=83.3s
+2025-12-15 11:56:57 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:17:59.637000+00:00', 'date<': '2024-12-01T17:19:22.928000+00:00'}
+2025-12-15 11:56:57 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=46, car_data rows=316
+2025-12-15 11:56:57 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=47 KEEP, status=GREEN, duration=83.4s
+2025-12-15 11:56:57 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:19:22.928000+00:00', 'date<': '2024-12-01T17:20:46.304000+00:00'}
+2025-12-15 11:56:58 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=47, car_data rows=314
+2025-12-15 11:56:58 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=48 KEEP, status=GREEN, duration=83.4s
+2025-12-15 11:56:58 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:20:46.304000+00:00', 'date<': '2024-12-01T17:22:09.662000+00:00'}
+2025-12-15 11:56:58 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=48, car_data rows=315
+2025-12-15 11:56:58 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=49 KEEP, status=GREEN, duration=83.6s
+2025-12-15 11:56:58 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:22:09.662000+00:00', 'date<': '2024-12-01T17:23:33.224000+00:00'}
+2025-12-15 11:56:59 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=49, car_data rows=337
+2025-12-15 11:56:59 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=50 KEEP, status=GREEN, duration=83.4s
+2025-12-15 11:56:59 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:23:33.224000+00:00', 'date<': '2024-12-01T17:24:56.625000+00:00'}
+2025-12-15 11:57:00 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=50, car_data rows=317
+2025-12-15 11:57:00 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=51 KEEP, status=GREEN, duration=82.9s
+2025-12-15 11:57:00 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:24:56.625000+00:00', 'date<': '2024-12-01T17:26:19.536000+00:00'}
+2025-12-15 11:57:00 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=51, car_data rows=317
+2025-12-15 11:57:00 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=52 KEEP, status=GREEN, duration=83.2s
+2025-12-15 11:57:00 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:26:19.536000+00:00', 'date<': '2024-12-01T17:27:42.697000+00:00'}
+2025-12-15 11:57:01 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=52, car_data rows=319
+2025-12-15 11:57:01 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=53 KEEP, status=GREEN, duration=83.0s
+2025-12-15 11:57:01 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:27:42.697000+00:00', 'date<': '2024-12-01T17:29:05.744000+00:00'}
+2025-12-15 11:57:01 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=53, car_data rows=307
+2025-12-15 11:57:01 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=54 KEEP, status=GREEN, duration=83.1s
+2025-12-15 11:57:01 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:29:05.744000+00:00', 'date<': '2024-12-01T17:30:28.884000+00:00'}
+2025-12-15 11:57:02 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=54, car_data rows=315
+2025-12-15 11:57:02 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=55 KEEP, status=GREEN, duration=82.9s
+2025-12-15 11:57:02 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 1, 'date>': '2024-12-01T17:30:28.884000+00:00', 'date<': '2024-12-01T17:31:51.755000+00:00'}
+2025-12-15 11:57:02 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=1 lap=55, car_data rows=304
+2025-12-15 11:57:02 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=56 DROP (SC_LAP), status=SC, duration=83.3s
+2025-12-15 11:57:02 [INFO] __main__ - [compute_lap_features_for_driver] driver=1 lap=57 DROP (SC_LAP), status=SC;RED_FLAG;CHEQUERED, duration=nans
+2025-12-15 11:57:02 [INFO] __main__ - [compute_lap_features_for_driver] driver=1, feature laps=[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32, 33, 34, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+2025-12-15 11:57:02 [INFO] __main__ - [build_driver_style_embedding_json] compute features for driver=11
+2025-12-15 11:57:02 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/laps params={'session_key': 9655, 'driver_number': 11}
+2025-12-15 11:57:03 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/sessions params={'session_key': 9655}
+2025-12-15 11:57:04 [INFO] __main__ - [fetch_session_start] session_key=9655, date_start=2024-12-01 16:00:00+00:00
+2025-12-15 11:57:04 [INFO] __main__ - [fetch_race_start_time] use first GREEN as race_start: 2024-12-01 15:20:01+00:00
+2025-12-15 11:57:04 [INFO] __main__ - [fetch_laps] fill lap 1 date_start with race_start=2024-12-01 15:20:01+00:00
+2025-12-15 11:57:04 [INFO] __main__ - [fetch_laps] driver=11, laps: min=1, max=39, count=39
+2025-12-15 11:57:04 [DEBUG] __main__ - [fetch_laps] head:
+   meeting_key  session_key  ...  st_speed  lap_duration_s
+0         1251         9655  ...     258.0        2732.754
+1         1251         9655  ...     178.0         143.637
+2         1251         9655  ...     261.0         138.288
+3         1251         9655  ...     259.0         143.560
+4         1251         9655  ...     302.0          89.618
+
+[5 rows x 17 columns]
+2025-12-15 11:57:04 [DEBUG] __main__ - [build_lap_status_mapping] status_by_lap={1: 'SC;YELLOW', 2: 'GREEN', 3: 'GREEN', 4: 'SC', 5: 'YELLOW', 6: 'GREEN', 7: 'GREEN', 8: 'GREEN', 9: 'GREEN', 10: 'GREEN', 11: 'GREEN', 12: 'GREEN', 13: 'GREEN', 14: 'GREEN', 15: 'GREEN', 16: 'GREEN', 17: 'GREEN', 18: 'GREEN', 19: 'GREEN', 20: 'GREEN', 21: 'GREEN', 22: 'GREEN', 23: 'GREEN', 24: 'GREEN', 25: 'GREEN', 26: 'GREEN', 27: 'GREEN', 28: 'GREEN', 29: 'YELLOW', 30: 'GREEN', 31: 'GREEN', 32: 'GREEN', 33: 'GREEN', 34: 'GREEN', 35: 'SC', 36: 'SC', 37: 'GREEN', 38: 'SC', 39: 'VSC;YELLOW;RED_FLAG;CHEQUERED'}
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11, typical_duration_s=86.153
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=1 DROP (SC_LAP), status=SC;YELLOW, duration=2732.8s
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=2 DROP (LONG_LAP_143.6s), status=GREEN, duration=143.6s
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=3 DROP (LONG_LAP_138.3s), status=GREEN, duration=138.3s
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=4 DROP (SC_LAP), status=SC, duration=143.6s
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=5 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=89.6s
+2025-12-15 11:57:04 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=6 KEEP, status=GREEN, duration=87.8s
+2025-12-15 11:57:04 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:14:08.857000+00:00', 'date<': '2024-12-01T16:15:36.621000+00:00'}
+2025-12-15 11:57:05 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=6, car_data rows=324
+2025-12-15 11:57:05 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=7 KEEP, status=GREEN, duration=87.3s
+2025-12-15 11:57:05 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:15:36.621000+00:00', 'date<': '2024-12-01T16:17:03.903000+00:00'}
+2025-12-15 11:57:05 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=7, car_data rows=329
+2025-12-15 11:57:05 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=8 KEEP, status=GREEN, duration=87.5s
+2025-12-15 11:57:05 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:17:03.903000+00:00', 'date<': '2024-12-01T16:18:31.363000+00:00'}
+2025-12-15 11:57:06 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=8, car_data rows=335
+2025-12-15 11:57:06 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=9 KEEP, status=GREEN, duration=87.1s
+2025-12-15 11:57:06 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:18:31.363000+00:00', 'date<': '2024-12-01T16:19:58.508000+00:00'}
+2025-12-15 11:57:07 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=9, car_data rows=327
+2025-12-15 11:57:07 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=10 KEEP, status=GREEN, duration=86.8s
+2025-12-15 11:57:07 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:19:58.508000+00:00', 'date<': '2024-12-01T16:21:25.344000+00:00'}
+2025-12-15 11:57:07 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=10, car_data rows=334
+2025-12-15 11:57:07 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=11 KEEP, status=GREEN, duration=86.8s
+2025-12-15 11:57:07 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:21:25.344000+00:00', 'date<': '2024-12-01T16:22:52.158000+00:00'}
+2025-12-15 11:57:08 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=11, car_data rows=333
+2025-12-15 11:57:08 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=12 KEEP, status=GREEN, duration=86.7s
+2025-12-15 11:57:08 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:22:52.158000+00:00', 'date<': '2024-12-01T16:24:18.895000+00:00'}
+2025-12-15 11:57:10 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=12, car_data rows=331
+2025-12-15 11:57:10 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=13 KEEP, status=GREEN, duration=86.6s
+2025-12-15 11:57:10 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:24:18.895000+00:00', 'date<': '2024-12-01T16:25:45.502000+00:00'}
+2025-12-15 11:57:11 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=13, car_data rows=325
+2025-12-15 11:57:11 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=14 KEEP, status=GREEN, duration=86.5s
+2025-12-15 11:57:11 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:25:45.502000+00:00', 'date<': '2024-12-01T16:27:12.028000+00:00'}
+2025-12-15 11:57:11 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=14, car_data rows=325
+2025-12-15 11:57:11 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=15 KEEP, status=GREEN, duration=86.6s
+2025-12-15 11:57:11 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:27:12.028000+00:00', 'date<': '2024-12-01T16:28:38.625000+00:00'}
+2025-12-15 11:57:12 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=15, car_data rows=322
+2025-12-15 11:57:12 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=16 KEEP, status=GREEN, duration=86.2s
+2025-12-15 11:57:12 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:28:38.625000+00:00', 'date<': '2024-12-01T16:30:04.808000+00:00'}
+2025-12-15 11:57:13 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=16, car_data rows=322
+2025-12-15 11:57:13 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=17 KEEP, status=GREEN, duration=85.8s
+2025-12-15 11:57:13 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:30:04.808000+00:00', 'date<': '2024-12-01T16:31:30.570000+00:00'}
+2025-12-15 11:57:14 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=17, car_data rows=329
+2025-12-15 11:57:14 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=18 KEEP, status=GREEN, duration=86.5s
+2025-12-15 11:57:14 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:31:30.570000+00:00', 'date<': '2024-12-01T16:32:57.055000+00:00'}
+2025-12-15 11:57:14 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=18, car_data rows=326
+2025-12-15 11:57:14 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=19 KEEP, status=GREEN, duration=86.2s
+2025-12-15 11:57:14 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:32:57.055000+00:00', 'date<': '2024-12-01T16:34:23.208000+00:00'}
+2025-12-15 11:57:15 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=19, car_data rows=326
+2025-12-15 11:57:15 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=20 KEEP, status=GREEN, duration=86.1s
+2025-12-15 11:57:15 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:34:23.208000+00:00', 'date<': '2024-12-01T16:35:49.348000+00:00'}
+2025-12-15 11:57:16 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=20, car_data rows=328
+2025-12-15 11:57:16 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=21 KEEP, status=GREEN, duration=85.8s
+2025-12-15 11:57:16 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:35:49.348000+00:00', 'date<': '2024-12-01T16:37:15.131000+00:00'}
+2025-12-15 11:57:16 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=21, car_data rows=329
+2025-12-15 11:57:16 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=22 KEEP, status=GREEN, duration=85.9s
+2025-12-15 11:57:16 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:37:15.131000+00:00', 'date<': '2024-12-01T16:38:40.999000+00:00'}
+2025-12-15 11:57:17 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=22, car_data rows=330
+2025-12-15 11:57:17 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=23 KEEP, status=GREEN, duration=85.9s
+2025-12-15 11:57:17 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:38:40.999000+00:00', 'date<': '2024-12-01T16:40:06.905000+00:00'}
+2025-12-15 11:57:18 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=23, car_data rows=337
+2025-12-15 11:57:18 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=24 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:57:18 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:40:06.905000+00:00', 'date<': '2024-12-01T16:41:32.407000+00:00'}
+2025-12-15 11:57:18 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=24, car_data rows=333
+2025-12-15 11:57:18 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=25 KEEP, status=GREEN, duration=85.6s
+2025-12-15 11:57:18 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:41:32.407000+00:00', 'date<': '2024-12-01T16:42:58.055000+00:00'}
+2025-12-15 11:57:19 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=25, car_data rows=327
+2025-12-15 11:57:19 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=26 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:57:19 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:42:58.055000+00:00', 'date<': '2024-12-01T16:44:23.517000+00:00'}
+2025-12-15 11:57:20 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=26, car_data rows=331
+2025-12-15 11:57:20 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=27 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:57:20 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:44:23.517000+00:00', 'date<': '2024-12-01T16:45:49.038000+00:00'}
+2025-12-15 11:57:20 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=27, car_data rows=326
+2025-12-15 11:57:20 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=28 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:57:20 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:45:49.038000+00:00', 'date<': '2024-12-01T16:47:14.559000+00:00'}
+2025-12-15 11:57:21 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=28, car_data rows=322
+2025-12-15 11:57:21 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=29 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=85.5s
+2025-12-15 11:57:21 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=30 KEEP, status=GREEN, duration=85.5s
+2025-12-15 11:57:21 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:48:40.078000+00:00', 'date<': '2024-12-01T16:50:05.569000+00:00'}
+2025-12-15 11:57:21 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=30, car_data rows=326
+2025-12-15 11:57:21 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=31 KEEP, status=GREEN, duration=85.2s
+2025-12-15 11:57:21 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:50:05.569000+00:00', 'date<': '2024-12-01T16:51:30.798000+00:00'}
+2025-12-15 11:57:22 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=31, car_data rows=325
+2025-12-15 11:57:22 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=32 KEEP, status=GREEN, duration=85.4s
+2025-12-15 11:57:22 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:51:30.798000+00:00', 'date<': '2024-12-01T16:52:56.192000+00:00'}
+2025-12-15 11:57:22 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=32, car_data rows=330
+2025-12-15 11:57:22 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=33 KEEP, status=GREEN, duration=85.3s
+2025-12-15 11:57:22 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:52:56.192000+00:00', 'date<': '2024-12-01T16:54:21.510000+00:00'}
+2025-12-15 11:57:23 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=33, car_data rows=323
+2025-12-15 11:57:23 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=34 KEEP, status=GREEN, duration=86.5s
+2025-12-15 11:57:23 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 11, 'date>': '2024-12-01T16:54:21.510000+00:00', 'date<': '2024-12-01T16:55:48+00:00'}
+2025-12-15 11:57:24 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=11 lap=34, car_data rows=327
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=35 DROP (SC_LAP), status=SC, duration=106.6s
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=36 DROP (SC_LAP), status=SC, duration=143.7s
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=37 DROP (LONG_LAP_158.4s), status=GREEN, duration=158.4s
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=38 DROP (SC_LAP), status=SC, duration=147.0s
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11 lap=39 DROP (VSC_LAP), status=VSC;YELLOW;RED_FLAG;CHEQUERED, duration=nans
+2025-12-15 11:57:24 [INFO] __main__ - [compute_lap_features_for_driver] driver=11, feature laps=[6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34]
+2025-12-15 11:57:24 [INFO] __main__ - [build_driver_style_embedding_json] compute features for driver=23
+2025-12-15 11:57:24 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/laps params={'session_key': 9655, 'driver_number': 23}
+2025-12-15 11:57:25 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/sessions params={'session_key': 9655}
+2025-12-15 11:57:25 [INFO] __main__ - [fetch_session_start] session_key=9655, date_start=2024-12-01 16:00:00+00:00
+2025-12-15 11:57:25 [INFO] __main__ - [fetch_race_start_time] use first GREEN as race_start: 2024-12-01 15:20:01+00:00
+2025-12-15 11:57:25 [INFO] __main__ - [fetch_laps] fill lap 1 date_start with race_start=2024-12-01 15:20:01+00:00
+2025-12-15 11:57:25 [INFO] __main__ - [fetch_laps] driver=23, laps: min=1, max=56, count=56
+2025-12-15 11:57:25 [DEBUG] __main__ - [fetch_laps] head:
+   meeting_key  session_key  ...  st_speed  lap_duration_s
+0         1251         9655  ...     270.0        2747.822
+1         1251         9655  ...     217.0         146.424
+2         1251         9655  ...     282.0         137.385
+3         1251         9655  ...     277.0         129.924
+4         1251         9655  ...     304.0          90.995
+
+[5 rows x 17 columns]
+2025-12-15 11:57:25 [DEBUG] __main__ - [build_lap_status_mapping] status_by_lap={1: 'SC;YELLOW', 2: 'GREEN', 3: 'GREEN', 4: 'SC', 5: 'YELLOW', 6: 'GREEN', 7: 'GREEN', 8: 'GREEN', 9: 'GREEN', 10: 'GREEN', 11: 'GREEN', 12: 'GREEN', 13: 'GREEN', 14: 'GREEN', 15: 'GREEN', 16: 'GREEN', 17: 'GREEN', 18: 'GREEN', 19: 'GREEN', 20: 'GREEN', 21: 'GREEN', 22: 'GREEN', 23: 'GREEN', 24: 'GREEN', 25: 'GREEN', 26: 'GREEN', 27: 'GREEN', 28: 'GREEN', 29: 'YELLOW', 30: 'GREEN', 31: 'GREEN', 32: 'GREEN', 33: 'GREEN', 34: 'GREEN', 35: 'SC', 36: 'SC', 37: 'GREEN', 38: 'SC', 39: 'SC', 40: 'VSC;YELLOW', 41: 'YELLOW', 42: 'SC;YELLOW', 43: 'GREEN', 44: 'YELLOW', 45: 'GREEN', 46: 'GREEN', 47: 'GREEN', 48: 'GREEN', 49: 'GREEN', 50: 'GREEN', 51: 'GREEN', 52: 'GREEN', 53: 'GREEN', 54: 'GREEN', 55: 'SC', 56: 'SC;RED_FLAG;CHEQUERED'}
+2025-12-15 11:57:25 [INFO] __main__ - [compute_lap_features_for_driver] driver=23, typical_duration_s=87.4255
+2025-12-15 11:57:25 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=1 DROP (SC_LAP), status=SC;YELLOW, duration=2747.8s
+2025-12-15 11:57:25 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=2 DROP (LONG_LAP_146.4s), status=GREEN, duration=146.4s
+2025-12-15 11:57:25 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=3 KEEP, status=GREEN, duration=137.4s
+2025-12-15 11:57:25 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:08:15.246000+00:00', 'date<': '2024-12-01T16:10:32.631000+00:00'}
+2025-12-15 11:57:27 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=3, car_data rows=520
+2025-12-15 11:57:27 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=4 DROP (SC_LAP), status=SC, duration=129.9s
+2025-12-15 11:57:27 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=5 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=91.0s
+2025-12-15 11:57:27 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=6 KEEP, status=GREEN, duration=89.9s
+2025-12-15 11:57:27 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:14:13.550000+00:00', 'date<': '2024-12-01T16:15:43.478000+00:00'}
+2025-12-15 11:57:28 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=6, car_data rows=335
+2025-12-15 11:57:28 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=7 KEEP, status=GREEN, duration=88.6s
+2025-12-15 11:57:28 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:15:43.478000+00:00', 'date<': '2024-12-01T16:17:12.044000+00:00'}
+2025-12-15 11:57:29 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=7, car_data rows=328
+2025-12-15 11:57:29 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=8 KEEP, status=GREEN, duration=88.6s
+2025-12-15 11:57:29 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:17:12.044000+00:00', 'date<': '2024-12-01T16:18:40.644000+00:00'}
+2025-12-15 11:57:30 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=8, car_data rows=343
+2025-12-15 11:57:30 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=9 KEEP, status=GREEN, duration=88.0s
+2025-12-15 11:57:30 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:18:40.644000+00:00', 'date<': '2024-12-01T16:20:08.596000+00:00'}
+2025-12-15 11:57:30 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=9, car_data rows=329
+2025-12-15 11:57:30 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=10 KEEP, status=GREEN, duration=87.8s
+2025-12-15 11:57:30 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:20:08.596000+00:00', 'date<': '2024-12-01T16:21:36.352000+00:00'}
+2025-12-15 11:57:31 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=10, car_data rows=339
+2025-12-15 11:57:31 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=11 KEEP, status=GREEN, duration=89.3s
+2025-12-15 11:57:31 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:21:36.352000+00:00', 'date<': '2024-12-01T16:23:05.674000+00:00'}
+2025-12-15 11:57:32 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=11, car_data rows=343
+2025-12-15 11:57:32 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=12 KEEP, status=GREEN, duration=87.3s
+2025-12-15 11:57:32 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:23:05.674000+00:00', 'date<': '2024-12-01T16:24:32.964000+00:00'}
+2025-12-15 11:57:33 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=12, car_data rows=331
+2025-12-15 11:57:33 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=13 KEEP, status=GREEN, duration=87.8s
+2025-12-15 11:57:33 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:24:32.964000+00:00', 'date<': '2024-12-01T16:26:00.759000+00:00'}
+2025-12-15 11:57:33 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=13, car_data rows=331
+2025-12-15 11:57:33 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=14 KEEP, status=GREEN, duration=87.5s
+2025-12-15 11:57:33 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:26:00.759000+00:00', 'date<': '2024-12-01T16:27:28.227000+00:00'}
+2025-12-15 11:57:36 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=14, car_data rows=323
+2025-12-15 11:57:36 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=15 KEEP, status=GREEN, duration=87.9s
+2025-12-15 11:57:36 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:27:28.227000+00:00', 'date<': '2024-12-01T16:28:56.087000+00:00'}
+2025-12-15 11:57:37 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=15, car_data rows=328
+2025-12-15 11:57:37 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=16 KEEP, status=GREEN, duration=87.6s
+2025-12-15 11:57:37 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:28:56.087000+00:00', 'date<': '2024-12-01T16:30:23.656000+00:00'}
+2025-12-15 11:57:37 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=16, car_data rows=326
+2025-12-15 11:57:37 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=17 KEEP, status=GREEN, duration=87.6s
+2025-12-15 11:57:37 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:30:23.656000+00:00', 'date<': '2024-12-01T16:31:51.252000+00:00'}
+2025-12-15 11:57:38 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=17, car_data rows=337
+2025-12-15 11:57:38 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=18 KEEP, status=GREEN, duration=87.3s
+2025-12-15 11:57:38 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:31:51.252000+00:00', 'date<': '2024-12-01T16:33:18.537000+00:00'}
+2025-12-15 11:57:39 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=18, car_data rows=342
+2025-12-15 11:57:39 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=19 KEEP, status=GREEN, duration=87.4s
+2025-12-15 11:57:39 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:33:18.537000+00:00', 'date<': '2024-12-01T16:34:45.960000+00:00'}
+2025-12-15 11:57:39 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=19, car_data rows=327
+2025-12-15 11:57:39 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=20 KEEP, status=GREEN, duration=87.4s
+2025-12-15 11:57:39 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:34:45.960000+00:00', 'date<': '2024-12-01T16:36:13.345000+00:00'}
+2025-12-15 11:57:40 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=20, car_data rows=328
+2025-12-15 11:57:40 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=21 KEEP, status=GREEN, duration=87.4s
+2025-12-15 11:57:40 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:36:13.345000+00:00', 'date<': '2024-12-01T16:37:40.773000+00:00'}
+2025-12-15 11:57:40 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=21, car_data rows=335
+2025-12-15 11:57:40 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=22 KEEP, status=GREEN, duration=87.1s
+2025-12-15 11:57:40 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:37:40.773000+00:00', 'date<': '2024-12-01T16:39:07.824000+00:00'}
+2025-12-15 11:57:41 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=22, car_data rows=340
+2025-12-15 11:57:41 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=23 KEEP, status=GREEN, duration=86.9s
+2025-12-15 11:57:41 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:39:07.824000+00:00', 'date<': '2024-12-01T16:40:34.753000+00:00'}
+2025-12-15 11:57:42 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=23, car_data rows=338
+2025-12-15 11:57:42 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=24 KEEP, status=GREEN, duration=87.1s
+2025-12-15 11:57:42 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:40:34.753000+00:00', 'date<': '2024-12-01T16:42:01.843000+00:00'}
+2025-12-15 11:57:42 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=24, car_data rows=332
+2025-12-15 11:57:42 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=25 KEEP, status=GREEN, duration=86.9s
+2025-12-15 11:57:42 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:42:01.843000+00:00', 'date<': '2024-12-01T16:43:28.783000+00:00'}
+2025-12-15 11:57:43 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=25, car_data rows=338
+2025-12-15 11:57:43 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=26 KEEP, status=GREEN, duration=86.8s
+2025-12-15 11:57:43 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:43:28.783000+00:00', 'date<': '2024-12-01T16:44:55.567000+00:00'}
+2025-12-15 11:57:44 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=26, car_data rows=336
+2025-12-15 11:57:44 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=27 KEEP, status=GREEN, duration=86.7s
+2025-12-15 11:57:44 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:44:55.567000+00:00', 'date<': '2024-12-01T16:46:22.239000+00:00'}
+2025-12-15 11:57:44 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=27, car_data rows=326
+2025-12-15 11:57:44 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=28 KEEP, status=GREEN, duration=86.4s
+2025-12-15 11:57:44 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:46:22.239000+00:00', 'date<': '2024-12-01T16:47:48.671000+00:00'}
+2025-12-15 11:57:45 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=28, car_data rows=329
+2025-12-15 11:57:45 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=29 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=86.5s
+2025-12-15 11:57:45 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=30 KEEP, status=GREEN, duration=86.7s
+2025-12-15 11:57:45 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:49:15.203000+00:00', 'date<': '2024-12-01T16:50:41.887000+00:00'}
+2025-12-15 11:57:45 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=30, car_data rows=332
+2025-12-15 11:57:45 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=31 KEEP, status=GREEN, duration=86.3s
+2025-12-15 11:57:45 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:50:41.887000+00:00', 'date<': '2024-12-01T16:52:08.206000+00:00'}
+2025-12-15 11:57:46 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=31, car_data rows=339
+2025-12-15 11:57:46 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=32 KEEP, status=GREEN, duration=86.6s
+2025-12-15 11:57:46 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:52:08.206000+00:00', 'date<': '2024-12-01T16:53:34.848000+00:00'}
+2025-12-15 11:57:47 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=32, car_data rows=325
+2025-12-15 11:57:47 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=33 KEEP, status=GREEN, duration=86.2s
+2025-12-15 11:57:47 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:53:34.848000+00:00', 'date<': '2024-12-01T16:55:01.041000+00:00'}
+2025-12-15 11:57:47 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=33, car_data rows=328
+2025-12-15 11:57:47 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=34 KEEP, status=GREEN, duration=87.7s
+2025-12-15 11:57:47 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T16:55:01.041000+00:00', 'date<': '2024-12-01T16:56:28.772000+00:00'}
+2025-12-15 11:57:48 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=34, car_data rows=332
+2025-12-15 11:57:48 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=35 DROP (SC_LAP), status=SC, duration=122.0s
+2025-12-15 11:57:48 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=36 DROP (SC_LAP), status=SC, duration=142.7s
+2025-12-15 11:57:48 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=37 KEEP, status=GREEN, duration=118.7s
+2025-12-15 11:57:48 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:00:53.448000+00:00', 'date<': '2024-12-01T17:02:52.155000+00:00'}
+2025-12-15 11:57:49 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=37, car_data rows=451
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=38 DROP (SC_LAP), status=SC, duration=146.3s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=39 DROP (SC_LAP), status=SC, duration=129.1s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=40 DROP (VSC_LAP), status=VSC;YELLOW, duration=114.0s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=41 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=134.2s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=42 DROP (SC_LAP), status=SC;YELLOW, duration=136.5s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=43 KEEP, status=GREEN, duration=87.9s
+2025-12-15 11:57:49 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:13:52.139000+00:00', 'date<': '2024-12-01T17:15:20.029000+00:00'}
+2025-12-15 11:57:49 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=43, car_data rows=316
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=44 DROP (YELLOW_FLAG_LAP), status=YELLOW, duration=86.5s
+2025-12-15 11:57:49 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=45 KEEP, status=GREEN, duration=85.8s
+2025-12-15 11:57:49 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:16:46.575000+00:00', 'date<': '2024-12-01T17:18:12.337000+00:00'}
+2025-12-15 11:57:50 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=45, car_data rows=320
+2025-12-15 11:57:50 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=46 KEEP, status=GREEN, duration=85.7s
+2025-12-15 11:57:50 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:18:12.337000+00:00', 'date<': '2024-12-01T17:19:38.031000+00:00'}
+2025-12-15 11:57:51 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=46, car_data rows=325
+2025-12-15 11:57:51 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=47 KEEP, status=GREEN, duration=85.6s
+2025-12-15 11:57:51 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:19:38.031000+00:00', 'date<': '2024-12-01T17:21:03.674000+00:00'}
+2025-12-15 11:57:51 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=47, car_data rows=326
+2025-12-15 11:57:51 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=48 KEEP, status=GREEN, duration=85.7s
+2025-12-15 11:57:51 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:21:03.674000+00:00', 'date<': '2024-12-01T17:22:29.391000+00:00'}
+2025-12-15 11:57:52 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=48, car_data rows=324
+2025-12-15 11:57:52 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=49 KEEP, status=GREEN, duration=87.3s
+2025-12-15 11:57:52 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:22:29.391000+00:00', 'date<': '2024-12-01T17:23:56.695000+00:00'}
+2025-12-15 11:57:52 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=49, car_data rows=349
+2025-12-15 11:57:52 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=50 KEEP, status=GREEN, duration=86.7s
+2025-12-15 11:57:52 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:23:56.695000+00:00', 'date<': '2024-12-01T17:25:23.359000+00:00'}
+2025-12-15 11:57:53 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=50, car_data rows=325
+2025-12-15 11:57:53 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=51 KEEP, status=GREEN, duration=86.8s
+2025-12-15 11:57:53 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:25:23.359000+00:00', 'date<': '2024-12-01T17:26:50.137000+00:00'}
+2025-12-15 11:57:54 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=51, car_data rows=338
+2025-12-15 11:57:54 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=52 KEEP, status=GREEN, duration=87.5s
+2025-12-15 11:57:54 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:26:50.137000+00:00', 'date<': '2024-12-01T17:28:17.592000+00:00'}
+2025-12-15 11:57:54 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=52, car_data rows=330
+2025-12-15 11:57:54 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=53 KEEP, status=GREEN, duration=90.2s
+2025-12-15 11:57:54 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:28:17.592000+00:00', 'date<': '2024-12-01T17:29:47.822000+00:00'}
+2025-12-15 11:57:55 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=53, car_data rows=338
+2025-12-15 11:57:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=54 KEEP, status=GREEN, duration=88.3s
+2025-12-15 11:57:55 [DEBUG] __main__ - [get_openf1] GET https://api.openf1.org/v1/car_data params={'session_key': 9655, 'driver_number': 23, 'date>': '2024-12-01T17:29:47.822000+00:00', 'date<': '2024-12-01T17:31:16.093000+00:00'}
+2025-12-15 11:57:55 [DEBUG] __main__ - [compute_lap_features_for_driver] driver=23 lap=54, car_data rows=327
+2025-12-15 11:57:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=55 DROP (SC_LAP), status=SC, duration=92.3s
+2025-12-15 11:57:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=23 lap=56 DROP (SC_LAP), status=SC;RED_FLAG;CHEQUERED, duration=nans
+2025-12-15 11:57:55 [INFO] __main__ - [compute_lap_features_for_driver] driver=23, feature laps=[3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 37, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54]
+2025-12-15 11:57:55 [INFO] __main__ - [build_driver_style_embedding_json] all feature laps (combined)=[3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 37, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+2025-12-15 11:57:55 [INFO] __main__ - [embed_lap_features] focus_laps = [10, 29, 57]
+2025-12-15 11:57:55 [INFO] __main__ - Saved ./driver_style_embedding_2024lusail.json
