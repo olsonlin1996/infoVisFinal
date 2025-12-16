@@ -1,0 +1,9 @@
+# macOS artifacts
+.DS_Store
+
+# Cache and generated assets
+worldMap/cache/
+worldMap/scatter_plot/log/
+worldMap/timeCurve-f1/output/
+worldMap/animation/driver_positions/
+worldMap/animation/driver_json/
