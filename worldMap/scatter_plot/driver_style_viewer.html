@@ -392,21 +392,29 @@
           file: "driver_style_embedding_2024sakhir.json",
           label: "2024 Bahrain Grand Prix (Sakhir)",
           short: "2024 Bahrain GP",
+          slug: "2024_bahrain",
+          circuits: ["bahrain", "sakhir"],
         },
         {
           file: "driver_style_embedding_2024jeddah.json",
           label: "2024 Saudi Arabian Grand Prix (Jeddah)",
           short: "2024 Saudi GP",
+          slug: "2024_saudi_arabia",
+          circuits: ["jeddah"],
         },
         {
           file: "driver_style_embedding_2024melbourne.json",
           label: "2024 Australian Grand Prix (Melbourne)",
           short: "2024 Australia GP",
+          slug: "2024_australia",
+          circuits: ["albert_park", "melbourne"],
         },
         {
           file: "driver_style_embedding_2024japan.json",
           label: "2024 Japanese Grand Prix (Japan slug)",
           short: "2024 Japan GP",
+          slug: "2024_japan",
+          circuits: ["suzuka", "japan"],
         },
         // {
         //   file: "driver_style_embedding_2024suzuka.json",
@@ -417,6 +425,8 @@
           file: "driver_style_embedding_2024china.json",
           label: "2024 Chinese Grand Prix (China slug)",
           short: "2024 China GP",
+          slug: "2024_china",
+          circuits: ["shanghai", "china"],
         },
         // {
         //   file: "driver_style_embedding_2024shanghai.json",
@@ -427,96 +437,134 @@
           file: "driver_style_embedding_2024miami.json",
           label: "2024 Miami Grand Prix",
           short: "2024 Miami GP",
+          slug: "2024_united_states",
+          circuits: ["miami"],
         },
         {
           file: "driver_style_embedding_2024imola.json",
           label: "2024 Emilia Romagna Grand Prix (Imola)",
           short: "2024 Imola GP",
+          slug: "2024_italy",
+          circuits: ["imola", "emilia_romagna"],
         },
         {
           file: "driver_style_embedding_2024monaco.json",
           label: "2024 Monaco Grand Prix",
           short: "2024 Monaco GP",
+          slug: "2024_monaco",
+          circuits: ["monaco"],
         },
         {
           file: "driver_style_embedding_2024montral.json",
           label: "2024 Canadian Grand Prix (Montreal)",
           short: "2024 Canada GP",
+          slug: "2024_canada",
+          circuits: ["villeneuve", "montreal", "gilles_villeneuve"],
         },
         {
           file: "driver_style_embedding_2024barcelona.json",
           label: "2024 Spanish Grand Prix (Barcelona)",
           short: "2024 Spain GP",
+          slug: "2024_spain",
+          circuits: ["catalunya", "barcelona"],
         },
         {
           file: "driver_style_embedding_2024spielberg.json",
           label: "2024 Austrian Grand Prix (Spielberg)",
           short: "2024 Austria GP",
+          slug: "2024_austria",
+          circuits: ["red_bull_ring", "spielberg"],
         },
         {
           file: "driver_style_embedding_2024silverstone.json",
           label: "2024 British Grand Prix (Silverstone)",
           short: "2024 Britain GP",
+          slug: "2024_united_kingdom",
+          circuits: ["silverstone", "great_britain", "uk"],
         },
         {
           file: "driver_style_embedding_2024budapest.json",
           label: "2024 Hungarian Grand Prix (Budapest)",
           short: "2024 Hungary GP",
+          slug: "2024_hungary",
+          circuits: ["hungaroring", "budapest"],
         },
         {
           file: "driver_style_embedding_2024spafrancorchamps.json",
           label: "2024 Belgian Grand Prix (Spa-Francorchamps)",
           short: "2024 Belgium GP",
+          slug: "2024_belgium",
+          circuits: ["spa", "spafrancorchamps"],
         },
         {
           file: "driver_style_embedding_2024zandvoort.json",
           label: "2024 Dutch Grand Prix (Zandvoort)",
           short: "2024 Dutch GP",
+          slug: "2024_netherlands",
+          circuits: ["zandvoort"],
         },
         {
           file: "driver_style_embedding_2024monza.json",
           label: "2024 Italian Grand Prix (Monza)",
           short: "2024 Italy GP",
+          slug: "2024_italy",
+          circuits: ["monza"],
         },
         {
           file: "driver_style_embedding_2024baku.json",
           label: "2024 Azerbaijan Grand Prix (Baku)",
           short: "2024 Azerbaijan GP",
+          slug: "2024_azerbaijan",
+          circuits: ["baku"],
         },
         {
           file: "driver_style_embedding_2024marinabay.json",
           label: "2024 Singapore Grand Prix (Marina Bay)",
           short: "2024 Singapore GP",
+          slug: "2024_singapore",
+          circuits: ["marina_bay", "singapore"],
         },
         {
           file: "driver_style_embedding_2024austin.json",
           label: "2024 United States Grand Prix (Austin)",
           short: "2024 US GP (Austin)",
+          slug: "2024_united_states",
+          circuits: ["americas", "austin", "cota"],
         },
         {
           file: "driver_style_embedding_2024mexicocity.json",
           label: "2024 Mexico City Grand Prix",
           short: "2024 Mexico GP",
+          slug: "2024_mexico",
+          circuits: ["rodriguez", "mexico_city"],
         },
         {
           file: "driver_style_embedding_2024sopaulo.json",
           label: "2024 São Paulo Grand Prix",
           short: "2024 São Paulo GP",
+          slug: "2024_brazil",
+          circuits: ["interlagos", "sao_paulo"],
         },
         {
           file: "driver_style_embedding_2024lasvegas.json",
           label: "2024 Las Vegas Grand Prix",
           short: "2024 Vegas GP",
+          slug: "2024_united_states",
+          circuits: ["las_vegas"],
         },
         {
           file: "driver_style_embedding_2024lusail.json",
           label: "2024 Qatar Grand Prix (Lusail)",
           short: "2024 Qatar GP",
+          slug: "2024_qatar",
+          circuits: ["losail", "lusail"],
         },
         {
           file: "driver_style_embedding_2024yasisland.json",
           label: "2024 Abu Dhabi Grand Prix (Yas Island)",
           short: "2024 Abu Dhabi GP",
+          slug: "2024_united_arab_emirates",
+          circuits: ["yas_marina", "abu_dhabi", "yas_island"],
         },
 
         // 2023 sample
@@ -528,14 +576,54 @@
       ];
 
       const raceSelect = document.getElementById("race-select");
+      const params = new URLSearchParams(window.location.search);
+
+      function normalize(text) {
+        return (text || "").toLowerCase();
+      }
+
+      function findInitialRace() {
+        const requestedRace = normalize(params.get("race"));
+        const requestedCircuit = normalize(params.get("circuit"));
+
+        if (requestedCircuit) {
+          const matchByCircuit = RACES.find((r) =>
+            (r.circuits || []).some((c) => normalize(c) === requestedCircuit)
+          );
+          if (matchByCircuit) return matchByCircuit;
+        }
+
+        if (requestedRace) {
+          const matchBySlug = RACES.find((r) => {
+            const slugMatch = normalize(r.slug) === requestedRace;
+            const aliasMatch = (r.slugAliases || []).some(
+              (alias) => normalize(alias) === requestedRace
+            );
+            return slugMatch || aliasMatch;
+          });
+          if (matchBySlug) return matchBySlug;
+        }
+
+        return null;
+      }
+
+      const initialRace = findInitialRace();
       RACES.forEach((r, idx) => {
         const opt = document.createElement("option");
         opt.value = r.file;
         opt.textContent = r.short || r.label;
         opt.dataset.label = r.label;
-        if (idx === 0) opt.selected = true;
+        opt.dataset.slug = r.slug || "";
+        if (r.circuits) opt.dataset.circuits = r.circuits.join(",");
+        if (initialRace) {
+          opt.selected = initialRace.file === r.file;
+        } else if (idx === 0) opt.selected = true;
         raceSelect.appendChild(opt);
       });
+
+      if (initialRace) {
+        raceSelect.value = initialRace.file;
+      }
 
       // === 基本圖表設定 ===
       const svg = d3.select("#style-chart");

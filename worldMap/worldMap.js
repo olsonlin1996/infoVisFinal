@@ -714,10 +714,15 @@ d3.select(".resetButton").on("click", () => {
 });
 
 const driverStyleBtn = document.getElementById("driver-style-btn");
+function openDriverStyleViewer(params = {}) {
+  const url = new URL("./scatter_plot/driver_style_viewer.html", window.location.href);
+  if (params.raceSlug) url.searchParams.set("race", params.raceSlug);
+  if (params.circuitId) url.searchParams.set("circuit", params.circuitId);
+  window.open(url.toString(), "_blank");
+}
+
 if (driverStyleBtn) {
-  driverStyleBtn.addEventListener("click", () => {
-    window.open("./scatter_plot/driver_style_viewer.html", "_blank");
-  });
+  driverStyleBtn.onclick = () => openDriverStyleViewer();
 }
 
 function showTrackView(d) {
@@ -784,6 +789,14 @@ function showTrackView(d) {
     timecurveStyle.style.display = "none";
   }
   if (timecurvePlaceholder) timecurvePlaceholder.style.display = "none";
+
+  if (driverStyleBtn) {
+    driverStyleBtn.onclick = () =>
+      openDriverStyleViewer({
+        raceSlug: raceSlug || undefined,
+        circuitId: d.circuitId,
+      });
+  }
 
   if (japanInsightsGroup) {
     const isJapan = raceSlug === "2024_japan";
