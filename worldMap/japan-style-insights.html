@@ -1,110 +1,420 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>日本站風格比較專區</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      body {
-        background: radial-gradient(circle at top, #111125, #05050b 55%);
-        color: #fff;
-        min-height: 100vh;
-        margin: 0;
-        font-family: "Inter", "Noto Sans TC", system-ui, -apple-system, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 24px;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日本站風格比較專區</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #05050b;
+      color: #fff;
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Navbar/Header */
+    .nav-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 5, 11, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-title h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-title span {
+      color: #e10600;
+    }
+
+    .back-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .back-link:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Main Chart Section (Full Screen) */
+    .chart-section {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 60px;
+      /* space for header */
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    #chart-container {
+      width: 90%;
+      height: 80%;
+      position: relative;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      z-index: 10;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn.active {
+      background: #e10600;
+      border-color: #e10600;
+      box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
+    }
+
+    /* Content Section (Scroll to see) */
+    .content-section {
+      background: #0f0f1a;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .explanation-card {
+      max-width: 800px;
+      width: 100%;
+      background: #181825;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .explanation-card h2 {
+      margin-top: 0;
+      color: #e10600;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+
+    .explanation-card p {
+      line-height: 1.8;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    .explanation-card strong {
+      color: #fff;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.5;
+      animation: bounce 2s infinite;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateX(-50%) translateY(0);
       }
 
-      .insights-page {
-        width: min(1200px, 100%);
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
+      40% {
+        transform: translateX(-50%) translateY(-10px);
       }
 
-      .insights-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
+      60% {
+        transform: translateX(-50%) translateY(-5px);
       }
+    }
 
-      .insights-title {
-        margin: 0;
-      }
+    /* Chart Styles */
+    .driver-line {
+      fill: none;
+      stroke-width: 3;
+      opacity: 0.3;
+      transition: all 0.4s ease;
+    }
 
-      .back-link {
-        color: #e10600;
-        text-decoration: none;
-        font-weight: 700;
-      }
+    .driver-line.active {
+      stroke-width: 5;
+      opacity: 1.0;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    }
 
-      .insights-card {
-        background: linear-gradient(145deg, #1d1d2b, #11111a);
-        border: 1px solid #1f1f2a;
-        border-radius: 10px;
-        padding: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
+    .driver-marker {
+      transition: opacity 0.3s;
+      opacity: 0.4;
+    }
 
-      .insights-card h3 {
-        margin: 0;
-        color: #e10600;
-      }
+    .driver-marker.active {
+      opacity: 1;
+    }
 
-      .insights-card p {
-        margin: 0;
-        color: #c5c5d3;
-      }
+    .axis text {
+      fill: #666;
+      font-family: monospace;
+    }
 
-      .insights-embed {
-        position: relative;
-        background: radial-gradient(circle at center, #181826 0%, #05050b 100%);
-        border: 1px solid #252536;
-        border-radius: 8px;
-        overflow: hidden;
-        min-height: 280px;
-      }
+    .axis line,
+    .axis path {
+      stroke: #333;
+    }
 
-      .insights-embed iframe {
-        width: 100%;
-        height: 480px;
-        border: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="insights-page">
-      <div class="insights-header">
-        <div>
-          <div class="analysis-label">Suzuka Exclusive</div>
-          <h1 class="insights-title">日本站風格比較專區</h1>
-          <p class="analysis-location">多位車手在日本站的駕駛風格差異</p>
-        </div>
-        <a class="back-link" href="index.html">← 返回世界地圖</a>
-      </div>
+    .legend-floating {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-      <div class="insights-card">
-        <div class="telemetry-header">
-          <div class="analysis-label">Driver Style</div>
-          <h3>風格比較</h3>
-          <p class="telemetry-subtitle">多位車手在日本站的駕駛風格差異</p>
-        </div>
-        <div class="insights-embed">
-          <iframe
-            src="./timeCurve-f1/output/driver_styles_comparison_S.html"
-            title="Style Comparison"
-            allowfullscreen
-          ></iframe>
-        </div>
-      </div>
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nav-header">
+    <div class="nav-title">
+      <h1>Suzuka <span>Style Analysis</span></h1>
     </div>
-  </body>
+    <a class="back-link" href="index.html">← Earth View</a>
+  </nav>
+
+  <!-- Full Screen Chart -->
+  <section class="chart-section">
+
+    <div class="controls">
+      <button id="btn-all" class="btn active">Show All</button>
+      <button id="btn-verstappen" class="btn">Verstappen</button>
+      <button id="btn-perez" class="btn">Perez</button>
+      <button id="btn-tsunoda" class="btn">Tsunoda</button>
+    </div>
+
+    <div id="chart-container"></div>
+
+    <div class="scroll-hint">Scroll for Analysis</div>
+  </section>
+
+  <!-- Explanations Below -->
+  <section class="content-section">
+    <div class="explanation-card">
+      <h2>📊 風格解讀 (Interpretation)</h2>
+      <p>此圖表使用 <strong>MDS (多維度縮放)</strong> 技術，將車手在鈴鹿賽道 S 彎 (Sector 1) 的複雜操作數據（速度、轉速、油門、煞車、檔位）投影到二維平面。</p>
+
+      <p><strong>軌跡的意義：</strong><br>
+        每一條線代表一位車手在該路段的「平均操作慣性」。如果兩條線重疊，代表這兩位車手在該彎道的處理方式（速度控制、換檔時機、油門深淺）幾乎一致。</p>
+
+      <p><strong>如何觀察：</strong></p>
+      <ul>
+        <li><strong>Verstappen (紫)</strong> 與 <strong>Perez (藍)</strong>：雖然駕駛同一輛紅牛賽車，但在入彎與出彎的軌跡上是否有分歧？這反映了個人風格的差異。</li>
+        <li><strong>Tsunoda (黃)</strong>：駕駛不同車輛 (RB)，其軌跡的偏移可能更多來自車輛性能特性（如抓地力極限不同）而非單純的駕駛風格。</li>
+      </ul>
+
+      <p style="margin-top:20px; font-size: 0.9rem; color: #666;">
+        * 數據來源：F1 2024 日本大獎賽遙測數據 (FastF1 API)
+      </p>
+    </div>
+  </section>
+
+  <script>
+    // Config & Colors
+    const colors = {
+      1: '#9D4EDD',   // Verstappen (Purple)
+      11: '#0096C7',  // Perez (Blue)
+      22: '#FFD60A'   // Tsunoda (Yellow)
+    };
+    const driverNames = { 1: 'Verstappen', 11: 'Perez', 22: 'Tsunoda' };
+
+    // Setup Chart
+    const container = document.getElementById('chart-container');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+
+    const svg = d3.select("#chart-container")
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Load Data
+    d3.csv("./timeCurve-f1/output/driver_average_styles_S.csv").then(data => {
+
+      // Parse
+      data.forEach(d => {
+        d.mds_x = +d.mds_x;
+        d.mds_y = +d.mds_y;
+        d.driver = +d.driver;
+      });
+
+      // Group
+      const drivers = d3.groups(data, d => d.driver);
+
+      // Scales (Responsive)
+      const xScale = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.mds_x))
+        .range([0, width - margin.left - margin.right]);
+
+      const yScale = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.mds_y))
+        .range([height - margin.top - margin.bottom, 0]);
+
+      // Draw Legend (Floating)
+      const legend = svg.append("g")
+        .attr("class", "legend-floating")
+        .attr("transform", `translate(${width - 150}, 20)`);
+
+      // (Actually using HTML for legend might be cleaner, but SVG is fine)
+      // Let's stick to the color definitions in the script for line drawing first.
+
+      // Paths
+      const line = d3.line()
+        .x(d => xScale(d.mds_x))
+        .y(d => yScale(d.mds_y))
+        .curve(d3.curveCatmullRom.alpha(0.5));
+
+      const paths = g.selectAll(".driver-line")
+        .data(drivers)
+        .enter().append("path")
+        .attr("class", "driver-line active")
+        .attr("d", d => line(d[1]))
+        .attr("stroke", d => colors[d[0]])
+        .attr("id", d => "driver-" + d[0]);
+
+      // Markers (Start/End)
+      const startMarkers = g.selectAll(".start-marker")
+        .data(drivers)
+        .enter().append("circle")
+        .attr("class", d => "driver-marker active start-" + d[0])
+        .attr("cx", d => xScale(d[1][0].mds_x))
+        .attr("cy", d => yScale(d[1][0].mds_y))
+        .attr("r", 8)
+        .attr("fill", d => colors[d[0]])
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2);
+
+      const endMarkers = g.selectAll(".end-marker")
+        .data(drivers)
+        .enter().append("path")
+        .attr("class", d => "driver-marker active end-" + d[0])
+        .attr("d", d3.symbol().type(d3.symbolCross).size(150))
+        .attr("transform", d => `translate(${xScale(d[1][d[1].length - 1].mds_x)},${yScale(d[1][d[1].length - 1].mds_y)})`)
+        .attr("fill", d => colors[d[0]])
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1);
+
+      // Button Logic
+      function updateView(filter) {
+        // Update Buttons
+        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`btn-${filter}`).classList.add('active');
+
+        if (filter === 'all') {
+          paths.classed("active", true);
+          d3.selectAll(".driver-marker").classed("active", true);
+        } else {
+          const targetName = filter.charAt(0).toUpperCase() + filter.slice(1);
+          // Find ID
+          const targetId = Object.keys(driverNames).find(id => driverNames[id] === targetName);
+
+          paths.classed("active", d => d[0] == targetId);
+          d3.selectAll(".driver-marker").classed("active", false);
+          if (targetId) {
+            d3.selectAll(`.start-${targetId}`).classed("active", true);
+            d3.selectAll(`.end-${targetId}`).classed("active", true);
+          }
+        }
+      }
+
+      // Bind Events
+      d3.select("#btn-all").on("click", () => updateView('all'));
+      d3.select("#btn-verstappen").on("click", () => updateView('verstappen'));
+      d3.select("#btn-perez").on("click", () => updateView('perez'));
+      d3.select("#btn-tsunoda").on("click", () => updateView('tsunoda'));
+
+    }).catch(err => {
+      console.error(err);
+      d3.select("#chart-container").append("div").style("color", "red").text("Error loading data: " + err);
+    });
+
+    // Resize Handler
+    window.addEventListener('resize', () => {
+      // Simple reload for responsive SVG (or could implement robust resize logic)
+      // location.reload(); 
+    });
+  </script>
+</body>
+
 </html>

@@ -1,110 +1,616 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>日本站 TimeCurve 專區</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      body {
-        background: radial-gradient(circle at top, #111125, #05050b 55%);
-        color: #fff;
-        min-height: 100vh;
-        margin: 0;
-        font-family: "Inter", "Noto Sans TC", system-ui, -apple-system, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 24px;
-        box-sizing: border-box;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日本站 TimeCurve 專區</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #05050b;
+      color: #fff;
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Navbar/Header */
+    .nav-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 5, 11, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      box-sizing: border-box;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-title h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-title span {
+      color: #e10600;
+    }
+
+    .back-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    .back-link:hover {
+      opacity: 1;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Main Chart Section */
+    .chart-section {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 60px;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .main-container {
+      display: flex;
+      width: 95%;
+      height: 85%;
+      gap: 20px;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    #chart-container {
+      flex: 3;
+      position: relative;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+
+    /* Telemetry Dashboard - Custom Style */
+    .telemetry-sidebar {
+      flex: 1;
+      min-width: 300px;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .driver-card {
+      background: rgba(24, 24, 37, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #555;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .driver-card:hover {
+      transform: translateY(-2px);
+      background: rgba(30, 30, 45, 0.9);
+    }
+
+    .driver-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 1.1em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    .telemetry-value {
+      color: #fff;
+      font-family: "Courier New", monospace;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .bar-container {
+      grid-column: span 2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .bar-bg {
+      flex-grow: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.1s linear;
+      border-radius: 3px;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 20px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn.active {
+      background: #e10600;
+      border-color: #e10600;
+      box-shadow: 0 0 15px rgba(225, 6, 0, 0.4);
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 300px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #e10600;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Content Section */
+    .content-section {
+      background: #0f0f1a;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .explanation-card {
+      max-width: 800px;
+      width: 100%;
+      background: #181825;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .explanation-card h2 {
+      margin-top: 0;
+      color: #e10600;
+      font-size: 1.5rem;
+      margin-bottom: 24px;
+    }
+
+    .explanation-card p {
+      line-height: 1.8;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    .explanation-card strong {
+      color: #fff;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.5;
+      animation: bounce 2s infinite;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      pointer-events: none;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateX(-50%) translateY(0);
       }
 
-      .insights-page {
-        width: min(1200px, 100%);
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
+      40% {
+        transform: translateX(-50%) translateY(-10px);
       }
 
-      .insights-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 12px;
+      60% {
+        transform: translateX(-50%) translateY(-5px);
       }
+    }
 
-      .insights-title {
-        margin: 0;
-      }
+    /* D3 Styling */
+    .axis text {
+      fill: #666;
+      font-family: monospace;
+      font-size: 10px;
+    }
 
-      .back-link {
-        color: #e10600;
-        text-decoration: none;
-        font-weight: 700;
-      }
+    .axis line,
+    .axis path {
+      stroke: #333;
+    }
 
-      .insights-card {
-        background: linear-gradient(145deg, #1d1d2b, #11111a);
-        border: 1px solid #1f1f2a;
-        border-radius: 10px;
-        padding: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
+    .grid line {
+      stroke: #333;
+      stroke-dasharray: 2, 2;
+      opacity: 0.3;
+    }
 
-      .insights-card h3 {
-        margin: 0;
-        color: #e10600;
-      }
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 10px 14px;
+      border-radius: 6px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      color: white;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+  </style>
+</head>
 
-      .insights-card p {
-        margin: 0;
-        color: #c5c5d3;
-      }
+<body>
 
-      .insights-embed {
-        position: relative;
-        background: radial-gradient(circle at center, #181826 0%, #05050b 100%);
-        border: 1px solid #252536;
-        border-radius: 8px;
-        overflow: hidden;
-        min-height: 280px;
-      }
+  <nav class="nav-header">
+    <div class="nav-title">
+      <h1>Suzuka <span>TimeCurve Analysis</span></h1>
+    </div>
+    <a class="back-link" href="index.html">← Earth View</a>
+  </nav>
 
-      .insights-embed iframe {
-        width: 100%;
-        height: 480px;
-        border: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="insights-page">
-      <div class="insights-header">
-        <div>
-          <div class="analysis-label">Suzuka Exclusive</div>
-          <h1 class="insights-title">日本站 TimeCurve 專區</h1>
-          <p class="analysis-location">S 字彎操作相似度完整 TimeCurve 展示</p>
-        </div>
-        <a class="back-link" href="index.html">← 返回世界地圖</a>
-      </div>
+  <section class="chart-section">
+    <div class="controls">
+      <button id="playBtn" class="btn">▶ Play</button>
+      <input type="range" id="timeSlider" min="0" max="100" value="0">
+      <span id="stepDisplay"
+        style="font-family: monospace; width: 40px; text-align: right; color: rgba(255,255,255,0.7);">0</span>
+    </div>
 
-      <div class="insights-card">
-        <div class="telemetry-header">
-          <div class="analysis-label">Telemetry Insights</div>
-          <h3>圈速變化與 S 字彎攻擊方式</h3>
-          <p class="telemetry-subtitle">完整 TimeCurve 展示</p>
-        </div>
-        <div class="insights-embed">
-          <iframe
-            src="./timeCurve-f1/output/index_total.html"
-            title="S-Curve Time Curve"
-            allowfullscreen
-          ></iframe>
-        </div>
+    <div class="main-container">
+      <div id="chart-container"></div>
+      <div class="telemetry-sidebar" id="dashboard">
+        <!-- Cards injected via JS -->
       </div>
     </div>
-  </body>
+
+    <div class="scroll-hint">Scroll for Insights</div>
+  </section>
+
+  <section class="content-section">
+    <div class="explanation-card">
+      <h2>📊 Telemetry Insights</h2>
+      <p>這個頁面展示了 <strong>TimeCurve</strong> 分析，捕捉了車手在日本鈴鹿賽道（特別是 S 字彎）的動態操作特徵。</p>
+
+      <p><strong>距離代表相似度：</strong><br>
+        在圖表中，點與點之間的距離代表了當下瞬間車輛狀態（速度、轉速、檔位）與操作輸入（油門、煞車）的相似程度。當兩個點靠得很近，表示兩位車手在該時刻的操作與車況幾乎一致。</p>
+
+      <p><strong>實時遙測數據 (Live Telemetry)：</strong><br>
+        右側的儀表板會隨著動畫播放實時更新。您可以觀察到：
+      </p>
+      <ul>
+        <li><strong>Verstappen (藍)</strong> 與 <strong>Perez (綠)</strong>：作為紅牛隊友，觀察他們在過彎時油門控制的細微差異。</li>
+        <li><strong>Tsunoda (紅)</strong>：在某些彎角是否採取了不同的擋位策略或更晚的煞車點？</li>
+      </ul>
+
+      <p style="margin-top:20px; font-size: 0.9rem; color: #666;">
+        * 資料來源：F1 2024 日本大獎賽 S-Curves 遙測數據
+      </p>
+    </div>
+  </section>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    // Config & Colors
+    const colors = { 1: '#4facfe', 11: '#00f260', 22: '#ff0844' };
+    const driverNames = { 1: 'Max Verstappen', 11: 'Sergio Perez', 22: 'Yuki Tsunoda' };
+
+    // Setup Chart
+    const container = document.getElementById('chart-container');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+
+    const svg = d3.select("#chart-container")
+      .append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+
+    const g = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Scales
+    const xScale = d3.scaleLinear().range([0, width - margin.left - margin.right]);
+    const yScale = d3.scaleLinear().range([height - margin.top - margin.bottom, 0]);
+
+    // Tooltip
+    const tooltip = d3.select("#tooltip");
+
+    // Load Data
+    d3.csv("timeCurve-f1/output/comparison_scurve_total_data.csv").then(data => {
+
+      // Parse
+      data.forEach(d => {
+        d.mds_x = +d.mds_x;
+        d.mds_y = +d.mds_y;
+        d.driver = +d.driver;
+        d.speed = +d.speed;
+        d.throttle = +d.throttle;
+        d.brake = +d.brake;
+        d.rpm = +d.rpm;
+        d.n_gear = +d.n_gear;
+      });
+
+      // Domain
+      const xExt = d3.extent(data, d => d.mds_x);
+      const yExt = d3.extent(data, d => d.mds_y);
+      const padX = (xExt[1] - xExt[0]) * 0.1;
+      const padY = (yExt[1] - yExt[0]) * 0.1;
+      xScale.domain([xExt[0] - padX, xExt[1] + padX]);
+      yScale.domain([yExt[0] - padY, yExt[1] + padY]);
+
+      // Grid
+      const xAxis = d3.axisBottom(xScale).ticks(10).tickSize(-(height - margin.top - margin.bottom)).tickFormat("");
+      const yAxis = d3.axisLeft(yScale).ticks(10).tickSize(-(width - margin.left - margin.right)).tickFormat("");
+
+      g.append("g").attr("class", "grid").attr("transform", `translate(0,${height - margin.top - margin.bottom})`).call(xAxis);
+      g.append("g").attr("class", "grid").call(yAxis);
+
+      // Group Data
+      const drivers = [1, 11, 22];
+      const nestedData = drivers.map(id => ({
+        id: id,
+        name: driverNames[id],
+        values: data.filter(d => d.driver === id)
+      }));
+
+      // Init Dashboard
+      initDashboard(nestedData);
+
+      // Draw Trails (Static background)
+      const line = d3.line()
+        .x(d => xScale(d.mds_x))
+        .y(d => yScale(d.mds_y))
+        .curve(d3.curveCatmullRom.alpha(0.5));
+
+      g.selectAll(".trace")
+        .data(nestedData)
+        .enter().append("path")
+        .attr("class", "trace")
+        .attr("d", d => line(d.values))
+        .attr("stroke", d => colors[d.id])
+        .attr("stroke-width", 1.5)
+        .attr("fill", "none")
+        .attr("opacity", 0.3);
+
+      // Draw Interactive Dots
+      const dots = g.selectAll(".dot")
+        .data(nestedData)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("r", 8)
+        .attr("fill", d => colors[d.id])
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 2)
+        .style("cursor", "crosshair");
+
+      // Interactions
+      dots.on("mouseover", function (event, d) {
+        const idx = Math.min(currentStep, d.values.length - 1);
+        const point = d.values[idx];
+        tooltip.style("opacity", 1)
+          .html(`<strong style="color:${colors[d.id]}">${d.name}</strong><br>Speed: ${Math.round(point.speed)} km/h`);
+      })
+        .on("mousemove", function (event) {
+          tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 28) + "px");
+        })
+        .on("mouseout", function () {
+          tooltip.style("opacity", 0);
+        });
+
+      // Animation logic
+      let maxSteps = d3.max(nestedData, d => d.values.length);
+      let currentStep = 0;
+      let isPlaying = false;
+      let timer;
+
+      // Update function
+      function update(step, duration = 0) {
+        currentStep = step;
+        d3.select("#timeSlider").property("value", step);
+        d3.select("#stepDisplay").text(step);
+
+        dots.each(function (d) {
+          const idx = Math.min(step, d.values.length - 1);
+          const point = d.values[idx];
+          const dot = d3.select(this);
+          if (duration > 0) {
+            dot.transition().duration(duration).ease(d3.easeLinear)
+              .attr("cx", xScale(point.mds_x))
+              .attr("cy", yScale(point.mds_y));
+          } else {
+            dot.interrupt()
+              .attr("cx", xScale(point.mds_x))
+              .attr("cy", yScale(point.mds_y));
+          }
+        });
+
+        updateDashboard(step, nestedData);
+      }
+
+      function initDashboard(dataGroup) {
+        const dashboard = d3.select("#dashboard");
+        dashboard.html("");
+        dataGroup.forEach(group => {
+          const color = colors[group.id];
+          dashboard.append("div")
+            .attr("class", "driver-card")
+            .style("border-left-color", color)
+            .html(`
+              <div class="driver-header" style="color:${color}">
+                ${group.name} <span>#${group.id}</span>
+              </div>
+              <div class="telemetry-grid">
+                <div>SPEED</div><div class="telemetry-value" id="val-speed-${group.id}">--</div>
+                <div>RPM</div><div class="telemetry-value" id="val-rpm-${group.id}">--</div>
+                <div>GEAR</div><div class="telemetry-value" id="val-gear-${group.id}">--</div>
+                <div class="bar-container">
+                  <span style="width:50px">THR</span>
+                  <div class="bar-bg"><div class="bar-fill" id="bar-thr-${group.id}" style="background:#00d2be;"></div></div>
+                </div>
+                <div class="bar-container">
+                  <span style="width:50px">BRK</span>
+                  <div class="bar-bg"><div class="bar-fill" id="bar-brk-${group.id}" style="background:#ff3838;"></div></div>
+                </div>
+              </div>
+            `);
+        });
+      }
+
+      function updateDashboard(step, dataGroup) {
+        dataGroup.forEach(group => {
+          const idx = Math.min(step, group.values.length - 1);
+          const d = group.values[idx];
+
+          d3.select(`#val-speed-${group.id}`).text(Math.round(d.speed));
+          d3.select(`#val-rpm-${group.id}`).text(d.rpm);
+          d3.select(`#val-gear-${group.id}`).text(d.n_gear);
+
+          d3.select(`#bar-thr-${group.id}`).style("width", `${d.throttle}%`);
+          d3.select(`#bar-brk-${group.id}`).style("width", `${d.brake}%`);
+        });
+      }
+
+      // Slider & Buttons
+      d3.select("#timeSlider")
+        .attr("max", maxSteps - 1)
+        .on("input", function () {
+          stop();
+          update(+this.value);
+        });
+
+      function play() {
+        if (isPlaying) return;
+        isPlaying = true;
+        d3.select("#playBtn").html("⏸ Pause");
+        timer = setInterval(() => {
+          currentStep++;
+          if (currentStep >= maxSteps) {
+            currentStep = 0;
+            // Loop automatically
+          }
+          update(currentStep, 100);
+        }, 100);
+      }
+
+      function stop() {
+        isPlaying = false;
+        d3.select("#playBtn").html("▶ Play");
+        clearInterval(timer);
+      }
+
+      d3.select("#playBtn").on("click", () => {
+        if (isPlaying) stop(); else play();
+      });
+
+      // Init
+      update(0);
+
+    }).catch(err => {
+      console.error(err);
+      container.innerHTML = `<div style="color:red; text-align:center; padding:20px;">Error loading data: ${err}</div>`;
+    });
+
+    // Handle Resize
+    window.addEventListener('resize', () => {
+      location.reload();
+    });
+  </script>
+</body>
+
 </html>
